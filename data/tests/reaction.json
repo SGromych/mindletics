@@ -1,0 +1,48 @@
+[
+  {
+    "id": "react-1",
+    "type": "choice-reaction",
+    "prompt": { "stimulusColor": "#FF4444" },
+    "options": [
+      { "label": "Red", "color": "#FF4444" },
+      { "label": "Blue", "color": "#4444FF" },
+      { "label": "Green", "color": "#44AA44" }
+    ],
+    "correctOption": 0
+  },
+  {
+    "id": "react-2",
+    "type": "choice-reaction",
+    "prompt": { "stimulusColor": "#44AA44" },
+    "options": [
+      { "label": "Red", "color": "#FF4444" },
+      { "label": "Blue", "color": "#4444FF" },
+      { "label": "Green", "color": "#44AA44" },
+      { "label": "Yellow", "color": "#FFAA00" }
+    ],
+    "correctOption": 2
+  },
+  {
+    "id": "react-3",
+    "type": "go-no-go",
+    "prompt": { "stimulus": "circle", "isTarget": true },
+    "targetShape": "circle"
+  },
+  {
+    "id": "react-4",
+    "type": "go-no-go",
+    "prompt": { "stimulus": "square", "isTarget": false },
+    "targetShape": "circle"
+  },
+  {
+    "id": "react-5",
+    "type": "stroop",
+    "prompt": { "word": "RED", "inkColor": "#4444FF" },
+    "options": [
+      { "label": "Red", "color": "#FF4444" },
+      { "label": "Blue", "color": "#4444FF" },
+      { "label": "Green", "color": "#44AA44" }
+    ],
+    "correctOption": 1
+  }
+]

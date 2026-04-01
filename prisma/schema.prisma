@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AttemptStatus {
+  registered
+  in_progress
+  finished
+  aborted
+}
+
+enum Gender {
+  male
+  female
+}
+
+model Event {
+  id          String        @id @default(cuid())
+  hallName    String
+  eventName   String
+  eventDate   DateTime
+  createdAt   DateTime      @default(now())
+  participants Participant[]
+  attempts    Attempt[]
+}
+
+model Participant {
+  id          String    @id @default(cuid())
+  displayName String
+  gender      Gender
+  age         Int
+  bibNumber   String
+  eventId     String
+  event       Event     @relation(fields: [eventId], references: [id])
+  attempts    Attempt[]
+  createdAt   DateTime  @default(now())
+}
+
+model Attempt {
+  id             String        @id @default(cuid())
+  participantId  String
+  participant    Participant   @relation(fields: [participantId], references: [id])
+  eventId        String
+  event          Event         @relation(fields: [eventId], references: [id])
+  status         AttemptStatus @default(registered)
+  currentStageNo Int           @default(0)
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  totalTimeSec   Int           @default(0)
+  totalCorrect   Int           @default(0)
+  totalWrong     Int           @default(0)
+  stageResults   StageResult[]
+  createdAt      DateTime      @default(now())
+}
+
+model StageResult {
+  id              String   @id @default(cuid())
+  attemptId       String
+  attempt         Attempt  @relation(fields: [attemptId], references: [id])
+  stageNo         Int
+  stageType       String   // "physical" | "cognitive"
+  stageTitle      String
+  startedAt       DateTime @default(now())
+  finishedAt      DateTime?
+  durationSec     Int?
+  correctAnswers  Int      @default(0)
+  wrongAnswers    Int      @default(0)
+  skippedAnswers  Int      @default(0)
+  rawAnswersJson  Json?
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "vis-1",
+    "type": "target-search",
+    "prompt": { "target": { "shape": "star", "color": "#FFAA00", "rotation": 0 } },
+    "options": [
+      { "shape": "star", "color": "#FFAA00", "rotation": 0 },
+      { "shape": "star", "color": "#FFAA00", "rotation": 45 },
+      { "shape": "star", "color": "#FF4444", "rotation": 0 },
+      { "shape": "star", "color": "#FFAA00", "rotation": 90 }
+    ],
+    "correctOption": 0
+  },
+  {
+    "id": "vis-2",
+    "type": "target-search",
+    "prompt": { "target": { "shape": "diamond", "color": "#44AA44", "size": 2 } },
+    "options": [
+      { "shape": "diamond", "color": "#44AA44", "size": 1 },
+      { "shape": "diamond", "color": "#44AA44", "size": 2 },
+      { "shape": "diamond", "color": "#44AA44", "size": 3 },
+      { "shape": "diamond", "color": "#4444FF", "size": 2 }
+    ],
+    "correctOption": 1
+  },
+  {
+    "id": "vis-3",
+    "type": "pair-compare",
+    "prompt": {
+      "left": ["circle", "square", "triangle"],
+      "right": ["circle", "square", "triangle"],
+      "areSame": true
+    }
+  },
+  {
+    "id": "vis-4",
+    "type": "pair-compare",
+    "prompt": {
+      "left": ["star", "diamond", "heart", "moon"],
+      "right": ["star", "diamond", "moon", "heart"],
+      "areSame": false
+    }
+  },
+  {
+    "id": "vis-5",
+    "type": "visual-analogy",
+    "prompt": {
+      "pairA": { "shape": "circle", "color": "#FF4444" },
+      "pairB": { "shape": "circle", "color": "#4444FF" },
+      "pairC": { "shape": "square", "color": "#FF4444" }
+    },
+    "options": [
+      { "shape": "square", "color": "#4444FF" },
+      { "shape": "square", "color": "#FF4444" },
+      { "shape": "circle", "color": "#4444FF" },
+      { "shape": "triangle", "color": "#4444FF" }
+    ],
+    "correctOption": 0
+  }
+]

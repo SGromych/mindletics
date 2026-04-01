@@ -1,0 +1,49 @@
+[
+  {
+    "id": "mem-1",
+    "type": "memorise-objects",
+    "prompt": {
+      "showItems": ["star", "heart", "moon", "sun", "diamond"],
+      "showDurationMs": 4000
+    },
+    "selectable": ["star", "heart", "moon", "sun", "diamond", "cloud", "bolt", "leaf"],
+    "correctItems": ["star", "heart", "moon", "sun", "diamond"]
+  },
+  {
+    "id": "mem-2",
+    "type": "memorise-objects",
+    "prompt": {
+      "showItems": ["bolt", "cloud", "leaf", "flame"],
+      "showDurationMs": 3000
+    },
+    "selectable": ["bolt", "cloud", "leaf", "flame", "star", "heart", "moon", "drop"],
+    "correctItems": ["bolt", "cloud", "leaf", "flame"]
+  },
+  {
+    "id": "mem-3",
+    "type": "memorise-grid",
+    "prompt": {
+      "gridSize": 4,
+      "highlightedCells": [[0, 1], [1, 3], [2, 0], [3, 2]],
+      "showDurationMs": 3000
+    }
+  },
+  {
+    "id": "mem-4",
+    "type": "memorise-grid",
+    "prompt": {
+      "gridSize": 4,
+      "highlightedCells": [[0, 0], [0, 3], [2, 1], [3, 3], [1, 2]],
+      "showDurationMs": 3500
+    }
+  },
+  {
+    "id": "mem-5",
+    "type": "memorise-sequence",
+    "prompt": {
+      "sequence": ["circle", "square", "triangle", "star"],
+      "showIntervalMs": 1000
+    },
+    "allShapes": ["circle", "square", "triangle", "star", "diamond"]
+  }
+]

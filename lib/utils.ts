@@ -1,0 +1,17 @@
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+export function formatTime(totalSeconds: number): string {
+  const mins = Math.floor(totalSeconds / 60)
+  const secs = totalSeconds % 60
+  return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`
+}
+
+export function elapsedSeconds(startedAt: string | Date): number {
+  const start = new Date(startedAt).getTime()
+  return Math.floor((Date.now() - start) / 1000)
+}

@@ -1,0 +1,69 @@
+[
+  {
+    "id": "logic-1",
+    "type": "number-series",
+    "prompt": { "sequence": [3, 6, 9, 12] },
+    "options": [14, 15, 16, 18],
+    "correctOption": 1
+  },
+  {
+    "id": "logic-2",
+    "type": "number-series",
+    "prompt": { "sequence": [2, 4, 8, 16] },
+    "options": [24, 30, 32, 36],
+    "correctOption": 2
+  },
+  {
+    "id": "logic-3",
+    "type": "figure-sequence",
+    "prompt": {
+      "figures": [
+        { "shape": "circle", "color": "#FF4444", "rotation": 0 },
+        { "shape": "circle", "color": "#FF4444", "rotation": 90 },
+        { "shape": "circle", "color": "#FF4444", "rotation": 180 }
+      ]
+    },
+    "options": [
+      { "shape": "circle", "color": "#FF4444", "rotation": 270 },
+      { "shape": "circle", "color": "#4444FF", "rotation": 0 },
+      { "shape": "square", "color": "#FF4444", "rotation": 270 },
+      { "shape": "circle", "color": "#FF4444", "rotation": 0 }
+    ],
+    "correctOption": 0
+  },
+  {
+    "id": "logic-4",
+    "type": "figure-sequence",
+    "prompt": {
+      "figures": [
+        { "shape": "triangle", "color": "#44AA44", "size": 1 },
+        { "shape": "triangle", "color": "#44AA44", "size": 2 },
+        { "shape": "triangle", "color": "#44AA44", "size": 3 }
+      ]
+    },
+    "options": [
+      { "shape": "triangle", "color": "#44AA44", "size": 3 },
+      { "shape": "triangle", "color": "#44AA44", "size": 4 },
+      { "shape": "square", "color": "#44AA44", "size": 4 },
+      { "shape": "triangle", "color": "#FF4444", "size": 4 }
+    ],
+    "correctOption": 1
+  },
+  {
+    "id": "logic-5",
+    "type": "mini-matrix",
+    "prompt": {
+      "grid": [
+        [{ "shape": "circle", "color": "#FF4444" }, { "shape": "circle", "color": "#4444FF" }],
+        [{ "shape": "square", "color": "#FF4444" }, null]
+      ]
+    },
+    "options": [
+      { "shape": "square", "color": "#4444FF" },
+      { "shape": "circle", "color": "#4444FF" },
+      { "shape": "square", "color": "#FF4444" },
+      { "shape": "triangle", "color": "#4444FF" }
+    ],
+    "correctOption": 0
+  }
+]

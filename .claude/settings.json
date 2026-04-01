@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "command": "echo \"HOOK: Перед изменением файла проверь — не нарушает ли это простоту MVP, планшетный UX и фиксированный сценарий event.\""
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "command": "echo \"HOOK: После изменения — проверь: проект собирается, schema актуальна, UI пригоден для планшета, raw answers сохраняются.\""
+      }
+    ]
+  }
+}
