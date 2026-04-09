@@ -6,12 +6,11 @@ import { Gender } from "@prisma/client"
 export async function GET(req: NextRequest) {
   const url = new URL(req.url)
   const eventId = url.searchParams.get("eventId")
-  const scope = url.searchParams.get("scope") || "all" // "all" | "last"
+  const scope = url.searchParams.get("scope") || "all"
   const gender = url.searchParams.get("gender") as Gender | null
   const ageMin = url.searchParams.get("ageMin")
   const ageMax = url.searchParams.get("ageMax")
 
-  // Determine event filter
   let eventFilter: string | undefined
   if (eventId) {
     eventFilter = eventId
@@ -20,7 +19,6 @@ export async function GET(req: NextRequest) {
     if (lastEvent) eventFilter = lastEvent.id
   }
 
-  // Build participant filter
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const participantWhere: any = {}
   if (gender) participantWhere.gender = gender
@@ -48,9 +46,8 @@ export async function GET(req: NextRequest) {
     eventName: a.event.eventName,
     eventDate: a.event.eventDate,
     status: a.status,
-    totalCorrect: a.totalCorrect,
-    totalWrong: a.totalWrong,
     totalTimeSec: a.totalTimeSec,
+    penaltyTimeSec: a.penaltyTimeSec,
   }))
 
   const sorted = sortForLeaderboard(rows)

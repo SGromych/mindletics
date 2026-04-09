@@ -18,7 +18,7 @@ export function ParticipantForm() {
   const [error, setError] = useState("")
 
   useEffect(() => {
-    fetch("/api/events")
+    fetch("/api/events?active=true")
       .then((r) => r.json())
       .then(setEvents)
   }, [])
@@ -46,7 +46,7 @@ export function ParticipantForm() {
       router.push(`/attempt/${data.attemptId}`)
     } else {
       const data = await res.json()
-      setError(data.error || "Registration failed")
+      setError(data.error || "Ошибка регистрации")
     }
     setLoading(false)
   }
@@ -92,7 +92,7 @@ export function ParticipantForm() {
         </label>
 
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-semibold text-gray-400">Номер участника</span>
+          <span className="text-sm font-semibold text-gray-400">Номер дорожки атлета</span>
           <input
             name="bibNumber"
             required

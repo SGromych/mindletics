@@ -1,17 +1,18 @@
 "use client"
 
-import { STAGES } from "@/lib/stages"
 import { cn } from "@/lib/utils"
+import type { Stage } from "@/lib/stages"
 
 interface StageIndicatorProps {
+  stages: Stage[]
   currentStageNo: number
   status: string
 }
 
-export function StageIndicator({ currentStageNo, status }: StageIndicatorProps) {
+export function StageIndicator({ stages, currentStageNo, status }: StageIndicatorProps) {
   return (
     <div className="flex w-full gap-1.5">
-      {STAGES.map((stage) => {
+      {stages.map((stage) => {
         const isDone = stage.stageNo < currentStageNo || status === "finished"
         const isCurrent = stage.stageNo === currentStageNo && status === "in_progress"
         const isCognitive = stage.type === "cognitive"

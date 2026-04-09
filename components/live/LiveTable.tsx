@@ -12,9 +12,8 @@ interface LiveRow {
   status: string
   currentStageNo: number
   currentStageTitle: string
-  totalCorrect: number
-  totalWrong: number
   totalTimeSec: number
+  penaltyTimeSec: number
   startedAt: string | null
 }
 
@@ -63,8 +62,6 @@ export function LiveTable({ eventId }: { eventId: string }) {
             <th className="px-3 py-3">Имя</th>
             <th className="px-3 py-3">Статус</th>
             <th className="px-3 py-3">Этап</th>
-            <th className="px-3 py-3 text-right">Верно</th>
-            <th className="px-3 py-3 text-right">Ошибки</th>
             <th className="px-3 py-3 text-right">Время</th>
           </tr>
         </thead>
@@ -82,18 +79,16 @@ export function LiveTable({ eventId }: { eventId: string }) {
                   ? "Финиш"
                   : p.status === "aborted"
                     ? "Прервано"
-                    : p.currentStageTitle || "—"}
+                    : `${p.currentStageNo}/6 ${p.currentStageTitle}` || "—"}
               </td>
-              <td className="px-3 py-4 text-right font-mono text-accent">{p.totalCorrect}</td>
-              <td className="px-3 py-4 text-right font-mono text-red-400">{p.totalWrong}</td>
               <td className="px-3 py-4 text-right font-mono">
-                <LiveTimer status={p.status} startedAt={p.startedAt} totalTimeSec={p.totalTimeSec} />
+                <LiveTimer status={p.status} startedAt={p.startedAt} totalTimeSec={p.totalTimeSec} penaltyTimeSec={p.penaltyTimeSec} />
               </td>
             </tr>
           ))}
           {data.participants.length === 0 && (
             <tr>
-              <td colSpan={8} className="px-3 py-8 text-center text-gray-500">
+              <td colSpan={6} className="px-3 py-8 text-center text-gray-500">
                 Пока нет участников
               </td>
             </tr>
@@ -104,7 +99,9 @@ export function LiveTable({ eventId }: { eventId: string }) {
   )
 }
 
-function LiveTimer({ status, startedAt, totalTimeSec }: { status: string; startedAt: string | null; totalTimeSec: number }) {
+function LiveTimer({ status, startedAt, totalTimeSec, penaltyTimeSec }: {
+  status: string; startedAt: string | null; totalTimeSec: number; penaltyTimeSec: number
+}) {
   const [elapsed, setElapsed] = useState(totalTimeSec)
 
   useEffect(() => {
@@ -113,12 +110,12 @@ function LiveTimer({ status, startedAt, totalTimeSec }: { status: string; starte
       return
     }
     const tick = () => {
-      setElapsed(Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000))
+      setElapsed(Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000) + penaltyTimeSec)
     }
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [status, startedAt, totalTimeSec])
+  }, [status, startedAt, totalTimeSec, penaltyTimeSec])
 
   return <>{formatTime(elapsed)}</>
 }

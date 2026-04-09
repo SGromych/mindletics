@@ -24,6 +24,7 @@ model Event {
   hallName    String
   eventName   String
   eventDate   DateTime
+  exercises   String[]
   createdAt   DateTime      @default(now())
   participants Participant[]
   attempts    Attempt[]
@@ -54,6 +55,7 @@ model Attempt {
   totalTimeSec   Int           @default(0)
   totalCorrect   Int           @default(0)
   totalWrong     Int           @default(0)
+  penaltyTimeSec Int           @default(0)
   stageResults   StageResult[]
   createdAt      DateTime      @default(now())
 }
@@ -71,5 +73,6 @@ model StageResult {
   correctAnswers  Int      @default(0)
   wrongAnswers    Int      @default(0)
   skippedAnswers  Int      @default(0)
+  penaltySec      Int      @default(0)
   rawAnswersJson  Json?
 }

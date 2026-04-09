@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { getStage, isLastStage, getNextStageNo } from "@/lib/stages"
+import { buildStages, isLastStage, getNextStageNo, getStageFromList } from "@/lib/stages"
 
 import { Prisma } from "@prisma/client"
 
@@ -8,6 +8,7 @@ interface StageResultPayload {
   correctAnswers: number
   wrongAnswers: number
   skippedAnswers: number
+  penaltySec: number
   rawAnswersJson: Prisma.InputJsonValue
 }
 
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest) {
 
   const attempt = await prisma.attempt.findUnique({
     where: { id: attemptId },
-    include: { stageResults: true },
+    include: { stageResults: true, event: true },
   })
 
   if (!attempt) {
@@ -29,6 +30,7 @@ export async function POST(req: NextRequest) {
 
   const now = new Date()
   const currentStageNo = attempt.currentStageNo
+  const stages = buildStages(attempt.event.exercises)
 
   // Finalize current StageResult
   const currentSR = attempt.stageResults.find((sr) => sr.stageNo === currentStageNo && !sr.finishedAt)
@@ -44,6 +46,7 @@ export async function POST(req: NextRequest) {
           correctAnswers: stageResult.correctAnswers,
           wrongAnswers: stageResult.wrongAnswers,
           skippedAnswers: stageResult.skippedAnswers,
+          penaltySec: stageResult.penaltySec,
           rawAnswersJson: stageResult.rawAnswersJson,
         }),
       },
@@ -52,21 +55,20 @@ export async function POST(req: NextRequest) {
 
   // If last stage — finish the attempt
   if (isLastStage(currentStageNo)) {
-    // Sum up all cognitive stage results
     const allResults = await prisma.stageResult.findMany({
       where: { attemptId: attempt.id },
     })
-    const totalCorrect = allResults.reduce((sum, r) => sum + r.correctAnswers, 0)
-    const totalWrong = allResults.reduce((sum, r) => sum + r.wrongAnswers, 0)
-    const totalTimeSec = Math.floor((now.getTime() - new Date(attempt.startedAt!).getTime()) / 1000)
 
-    // Add current stage result data that was just saved
-    const finalCorrect = stageResult
-      ? totalCorrect - (currentSR?.correctAnswers ?? 0) + stageResult.correctAnswers
-      : totalCorrect
-    const finalWrong = stageResult
-      ? totalWrong - (currentSR?.wrongAnswers ?? 0) + stageResult.wrongAnswers
-      : totalWrong
+    const totalPenalty = allResults.reduce((sum, r) => sum + r.penaltySec, 0)
+      + (stageResult ? stageResult.penaltySec - (currentSR?.penaltySec ?? 0) : 0)
+
+    const elapsedSec = Math.floor((now.getTime() - new Date(attempt.startedAt!).getTime()) / 1000)
+    const totalTimeSec = elapsedSec + totalPenalty
+
+    const totalCorrect = allResults.reduce((sum, r) => sum + r.correctAnswers, 0)
+      + (stageResult ? stageResult.correctAnswers - (currentSR?.correctAnswers ?? 0) : 0)
+    const totalWrong = allResults.reduce((sum, r) => sum + r.wrongAnswers, 0)
+      + (stageResult ? stageResult.wrongAnswers - (currentSR?.wrongAnswers ?? 0) : 0)
 
     const updated = await prisma.attempt.update({
       where: { id: attemptId },
@@ -74,8 +76,9 @@ export async function POST(req: NextRequest) {
         status: "finished",
         finishedAt: now,
         totalTimeSec,
-        totalCorrect: finalCorrect,
-        totalWrong: finalWrong,
+        penaltyTimeSec: totalPenalty,
+        totalCorrect,
+        totalWrong,
       },
       include: { stageResults: true, participant: true, event: true },
     })
@@ -85,7 +88,7 @@ export async function POST(req: NextRequest) {
 
   // Advance to next stage
   const nextNo = getNextStageNo(currentStageNo)!
-  const nextStage = getStage(nextNo)!
+  const nextStage = getStageFromList(stages, nextNo)!
 
   const updated = await prisma.attempt.update({
     where: { id: attemptId },

@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 export async function GET(_req: NextRequest, { params }: { params: { attemptId: string } }) {
+  const { attemptId } = params
+
   const attempt = await prisma.attempt.findUnique({
-    where: { id: params.attemptId },
+    where: { id: attemptId },
     include: {
       stageResults: { orderBy: { stageNo: "asc" } },
       participant: true,

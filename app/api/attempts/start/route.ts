@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { getStage } from "@/lib/stages"
+import { buildStages } from "@/lib/stages"
 
 export async function POST(req: NextRequest) {
   const { attemptId } = await req.json()
@@ -17,14 +17,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Attempt already started" }, { status: 400 })
   }
 
-  // Check 1-hour event limit
   const hourAgo = new Date(Date.now() - 60 * 60 * 1000)
   if (attempt.event.createdAt < hourAgo) {
     return NextResponse.json({ error: "Event has expired (1 hour limit)" }, { status: 400 })
   }
 
   const now = new Date()
-  const stage = getStage(1)!
+  const stages = buildStages(attempt.event.exercises)
+  const stage = stages[0]
 
   const updated = await prisma.attempt.update({
     where: { id: attemptId },

@@ -1,48 +1,316 @@
-[
-  {
-    "id": "react-1",
-    "type": "choice-reaction",
-    "prompt": { "stimulusColor": "#FF4444" },
-    "options": [
-      { "label": "Red", "color": "#FF4444" },
-      { "label": "Blue", "color": "#4444FF" },
-      { "label": "Green", "color": "#44AA44" }
-    ],
-    "correctOption": 0
+{
+  "meta": {
+    "schema_version": "1.0",
+    "default_prep_time_sec": 3,
+    "default_answer_time_sec": 20,
+    "default_penalty_sec": 20,
+    "locale": "ru",
+    "notes": "Все тесты рассчитаны на генерацию интерфейса кодом без внешних изображений. Пространственные и визуальные элементы должны рендериться через SVG/CSS/Canvas."
   },
-  {
-    "id": "react-2",
-    "type": "choice-reaction",
-    "prompt": { "stimulusColor": "#44AA44" },
-    "options": [
-      { "label": "Red", "color": "#FF4444" },
-      { "label": "Blue", "color": "#4444FF" },
-      { "label": "Green", "color": "#44AA44" },
-      { "label": "Yellow", "color": "#FFAA00" }
-    ],
-    "correctOption": 2
-  },
-  {
-    "id": "react-3",
-    "type": "go-no-go",
-    "prompt": { "stimulus": "circle", "isTarget": true },
-    "targetShape": "circle"
-  },
-  {
-    "id": "react-4",
-    "type": "go-no-go",
-    "prompt": { "stimulus": "square", "isTarget": false },
-    "targetShape": "circle"
-  },
-  {
-    "id": "react-5",
-    "type": "stroop",
-    "prompt": { "word": "RED", "inkColor": "#4444FF" },
-    "options": [
-      { "label": "Red", "color": "#FF4444" },
-      { "label": "Blue", "color": "#4444FF" },
-      { "label": "Green", "color": "#44AA44" }
-    ],
-    "correctOption": 1
-  }
-]
+  "items": [
+    {
+      "id": "reaction_01",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов. Часть чисел может мерцать.",
+      "render": {
+        "mode": "animated_number_grid",
+        "animation_profile": "blink_some"
+      },
+      "payload": {
+        "target": "7584",
+        "options": [
+          {
+            "value": "4052",
+            "effect": "none"
+          },
+          {
+            "value": "7584",
+            "effect": "blink"
+          },
+          {
+            "value": "3666",
+            "effect": "none"
+          },
+          {
+            "value": "8694",
+            "effect": "none"
+          },
+          {
+            "value": "1704",
+            "effect": "blink"
+          },
+          {
+            "value": "6926",
+            "effect": "none"
+          }
+        ]
+      },
+      "correct_answer": "7584"
+    },
+    {
+      "id": "reaction_02",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов. Часть чисел может двигаться.",
+      "render": {
+        "mode": "animated_number_grid",
+        "animation_profile": "move_some"
+      },
+      "payload": {
+        "target": "2319",
+        "options": [
+          {
+            "value": "2319",
+            "effect": "move"
+          },
+          {
+            "value": "2379",
+            "effect": "none"
+          },
+          {
+            "value": "2913",
+            "effect": "move"
+          },
+          {
+            "value": "2139",
+            "effect": "none"
+          },
+          {
+            "value": "2391",
+            "effect": "none"
+          },
+          {
+            "value": "3219",
+            "effect": "none"
+          }
+        ]
+      },
+      "correct_answer": "2319"
+    },
+    {
+      "id": "reaction_03",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "hard",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов. Есть очень похожие отвлекающие варианты.",
+      "render": {
+        "mode": "animated_number_grid",
+        "animation_profile": "blink_move_mix"
+      },
+      "payload": {
+        "target": "6407",
+        "options": [
+          {
+            "value": "6407",
+            "effect": "blink"
+          },
+          {
+            "value": "6401",
+            "effect": "none"
+          },
+          {
+            "value": "6047",
+            "effect": "move"
+          },
+          {
+            "value": "6470",
+            "effect": "none"
+          },
+          {
+            "value": "6704",
+            "effect": "none"
+          },
+          {
+            "value": "6409",
+            "effect": "move"
+          }
+        ]
+      },
+      "correct_answer": "6407"
+    },
+    {
+      "id": "reaction_04",
+      "category": "reaction",
+      "subtype": "choice_reaction_color",
+      "difficulty": "easy",
+      "prompt_title": "Реакция",
+      "prompt_text": "Нажмите кнопку, соответствующую цвету появившегося квадрата.",
+      "render": {
+        "mode": "single_stimulus_buttons"
+      },
+      "payload": {
+        "stimulus_shape": "square",
+        "stimulus_color": "green"
+      },
+      "options": [
+        "red",
+        "blue",
+        "green",
+        "yellow",
+        "black",
+        "purple"
+      ],
+      "correct_answer": "green"
+    },
+    {
+      "id": "reaction_05",
+      "category": "reaction",
+      "subtype": "choice_reaction_color",
+      "difficulty": "easy",
+      "prompt_title": "Реакция",
+      "prompt_text": "Нажмите кнопку, соответствующую цвету появившегося квадрата.",
+      "render": {
+        "mode": "single_stimulus_buttons"
+      },
+      "payload": {
+        "stimulus_shape": "square",
+        "stimulus_color": "yellow"
+      },
+      "options": [
+        "red",
+        "blue",
+        "green",
+        "yellow",
+        "black",
+        "purple"
+      ],
+      "correct_answer": "yellow"
+    },
+    {
+      "id": "reaction_06",
+      "category": "reaction",
+      "subtype": "go_no_go",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Нажмите только если появился целевой символ ▲. Для всех остальных ничего не нажимайте.",
+      "render": {
+        "mode": "go_no_go_single_button",
+        "target_symbol": "▲"
+      },
+      "payload": {
+        "shown_symbol": "▲",
+        "is_target": true
+      },
+      "options": [
+        "tap",
+        "no_tap"
+      ],
+      "correct_answer": "tap"
+    },
+    {
+      "id": "reaction_07",
+      "category": "reaction",
+      "subtype": "go_no_go",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Нажмите только если появился целевой символ ▲. Для всех остальных ничего не нажимайте.",
+      "render": {
+        "mode": "go_no_go_single_button",
+        "target_symbol": "▲"
+      },
+      "payload": {
+        "shown_symbol": "■",
+        "is_target": false
+      },
+      "options": [
+        "tap",
+        "no_tap"
+      ],
+      "correct_answer": "no_tap"
+    },
+    {
+      "id": "reaction_08",
+      "category": "reaction",
+      "subtype": "go_no_go",
+      "difficulty": "hard",
+      "prompt_title": "Реакция",
+      "prompt_text": "Нажмите только если появился целевой символ ▲. Для всех остальных ничего не нажимайте.",
+      "render": {
+        "mode": "go_no_go_single_button",
+        "target_symbol": "▲"
+      },
+      "payload": {
+        "shown_symbol": "△",
+        "is_target": false,
+        "note": "Похожий, но не целевой символ."
+      },
+      "options": [
+        "tap",
+        "no_tap"
+      ],
+      "correct_answer": "no_tap"
+    },
+    {
+      "id": "reaction_09",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "hard",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов. Некоторые числа двигаются и мерцают.",
+      "render": {
+        "mode": "animated_number_grid",
+        "animation_profile": "blink_move_mix"
+      },
+      "payload": {
+        "target": "9182",
+        "options": [
+          {
+            "value": "9812",
+            "effect": "move"
+          },
+          {
+            "value": "9182",
+            "effect": "blink"
+          },
+          {
+            "value": "9128",
+            "effect": "none"
+          },
+          {
+            "value": "8192",
+            "effect": "move"
+          },
+          {
+            "value": "9187",
+            "effect": "none"
+          },
+          {
+            "value": "9162",
+            "effect": "blink"
+          }
+        ]
+      },
+      "correct_answer": "9182"
+    },
+    {
+      "id": "reaction_10",
+      "category": "reaction",
+      "subtype": "choice_reaction_color",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Нажмите кнопку, соответствующую цвету появившегося круга.",
+      "render": {
+        "mode": "single_stimulus_buttons"
+      },
+      "payload": {
+        "stimulus_shape": "circle",
+        "stimulus_color": "purple"
+      },
+      "options": [
+        "red",
+        "blue",
+        "green",
+        "yellow",
+        "black",
+        "purple"
+      ],
+      "correct_answer": "purple"
+    }
+  ]
+}

@@ -17,9 +17,6 @@ export async function POST(req: NextRequest) {
   }
 
   const now = new Date()
-  const totalTimeSec = attempt.startedAt
-    ? Math.floor((now.getTime() - new Date(attempt.startedAt).getTime()) / 1000)
-    : 0
 
   // Finalize current stage
   const currentSR = attempt.stageResults.find((sr) => sr.stageNo === attempt.currentStageNo && !sr.finishedAt)
@@ -33,10 +30,16 @@ export async function POST(req: NextRequest) {
     })
   }
 
-  // Sum up results
+  // Sum up results including penalties
   const allResults = await prisma.stageResult.findMany({ where: { attemptId: attempt.id } })
   const totalCorrect = allResults.reduce((sum, r) => sum + r.correctAnswers, 0)
   const totalWrong = allResults.reduce((sum, r) => sum + r.wrongAnswers, 0)
+  const totalPenalty = allResults.reduce((sum, r) => sum + r.penaltySec, 0)
+
+  const elapsedSec = attempt.startedAt
+    ? Math.floor((now.getTime() - new Date(attempt.startedAt).getTime()) / 1000)
+    : 0
+  const totalTimeSec = elapsedSec + totalPenalty
 
   const updated = await prisma.attempt.update({
     where: { id: attemptId },
@@ -44,6 +47,7 @@ export async function POST(req: NextRequest) {
       status: "aborted",
       finishedAt: now,
       totalTimeSec,
+      penaltyTimeSec: totalPenalty,
       totalCorrect,
       totalWrong,
     },

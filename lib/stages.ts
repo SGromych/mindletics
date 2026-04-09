@@ -1,32 +1,30 @@
 export type StageType = "physical" | "cognitive"
-export type TestType = "logic" | "memory" | "reaction" | "visual_final"
 
 export interface Stage {
   stageNo: number
   type: StageType
   title: string
-  testType?: TestType
 }
 
-export const STAGES: Stage[] = [
-  { stageNo: 1, type: "physical", title: "1 км гребля" },
-  { stageNo: 2, type: "cognitive", title: "Логика / абстрактное мышление", testType: "logic" },
-  { stageNo: 3, type: "physical", title: "40 становых тяг + 40 берпи" },
-  { stageNo: 4, type: "cognitive", title: "Память", testType: "memory" },
-  { stageNo: 5, type: "physical", title: "3 раунда: байк + коробка" },
-  { stageNo: 6, type: "cognitive", title: "Скорость реакции", testType: "reaction" },
-  { stageNo: 7, type: "physical", title: "300 м челночный бег" },
-  { stageNo: 8, type: "cognitive", title: "Финальный визуальный блок", testType: "visual_final" },
-]
+export const TOTAL_STAGES = 6
 
-export const TOTAL_STAGES = STAGES.length
+export function buildStages(exercises: string[]): Stage[] {
+  return [
+    { stageNo: 1, type: "cognitive", title: "Когнитивная станция 1" },
+    { stageNo: 2, type: "physical", title: exercises[0] || "Упражнение 1" },
+    { stageNo: 3, type: "cognitive", title: "Когнитивная станция 2" },
+    { stageNo: 4, type: "physical", title: exercises[1] || "Упражнение 2" },
+    { stageNo: 5, type: "cognitive", title: "Когнитивная станция 3" },
+    { stageNo: 6, type: "physical", title: exercises[2] || "Упражнение 3" },
+  ]
+}
 
-export function getStage(stageNo: number): Stage | undefined {
-  return STAGES.find((s) => s.stageNo === stageNo)
+export function getStageFromList(stages: Stage[], stageNo: number): Stage | undefined {
+  return stages.find((s) => s.stageNo === stageNo)
 }
 
 export function isCognitiveStage(stageNo: number): boolean {
-  return getStage(stageNo)?.type === "cognitive"
+  return stageNo % 2 === 1
 }
 
 export function isLastStage(stageNo: number): boolean {
@@ -35,4 +33,8 @@ export function isLastStage(stageNo: number): boolean {
 
 export function getNextStageNo(current: number): number | null {
   return current < TOTAL_STAGES ? current + 1 : null
+}
+
+export function stageToStationIndex(stageNo: number): 0 | 1 | 2 {
+  return Math.floor((stageNo - 1) / 2) as 0 | 1 | 2
 }

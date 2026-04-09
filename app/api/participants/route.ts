@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Event not found" }, { status: 404 })
   }
 
-  // Check if event is older than 1 hour
+  // Check if event has expired (1 hour from creation)
   const hourAgo = new Date(Date.now() - 60 * 60 * 1000)
   if (event.createdAt < hourAgo) {
     return NextResponse.json({ error: "Event has expired (1 hour limit)" }, { status: 400 })

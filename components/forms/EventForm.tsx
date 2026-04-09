@@ -4,14 +4,25 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/Button"
 import { Card } from "@/components/ui/Card"
+import { EXERCISE_OPTIONS } from "@/lib/exercises"
 
 export function EventForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [created, setCreated] = useState<{ id: string; eventName: string } | null>(null)
+  const [selectedExercises, setSelectedExercises] = useState<string[]>([])
+
+  function toggleExercise(ex: string) {
+    setSelectedExercises((prev) => {
+      if (prev.includes(ex)) return prev.filter((e) => e !== ex)
+      if (prev.length >= 3) return prev
+      return [...prev, ex]
+    })
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (selectedExercises.length !== 3) return
     setLoading(true)
 
     const form = new FormData(e.currentTarget)
@@ -22,6 +33,7 @@ export function EventForm() {
         hallName: form.get("hallName"),
         eventName: form.get("eventName"),
         eventDate: form.get("eventDate"),
+        exercises: selectedExercises,
       }),
     })
 
@@ -50,7 +62,7 @@ export function EventForm() {
   }
 
   return (
-    <Card className="w-full max-w-lg">
+    <Card className="w-full max-w-2xl">
       <h2 className="mb-6 text-2xl font-bold">Создать событие</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <label className="flex flex-col gap-2">
@@ -78,7 +90,52 @@ export function EventForm() {
             className="min-h-[56px] rounded-xl bg-surface px-4 text-lg outline-none ring-1 ring-white/20 focus:ring-accent"
           />
         </label>
-        <Button type="submit" fullWidth disabled={loading}>
+
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-semibold text-gray-400">
+            Упражнения (выберите 3 по порядку: Этап 2 → Этап 4 → Этап 6)
+          </span>
+          <p className="text-xs text-gray-500">
+            Выбрано: {selectedExercises.length}/3
+            {selectedExercises.length > 0 && (
+              <span>
+                {" — "}
+                {selectedExercises.map((ex, i) => (
+                  <span key={ex}>
+                    <span className="text-accent">Этап {(i + 1) * 2}:</span> {ex}
+                    {i < selectedExercises.length - 1 && " → "}
+                  </span>
+                ))}
+              </span>
+            )}
+          </p>
+          <div className="grid grid-cols-2 gap-2 max-h-[300px] overflow-y-auto rounded-xl bg-surface p-3 ring-1 ring-white/20">
+            {EXERCISE_OPTIONS.map((ex) => {
+              const isSelected = selectedExercises.includes(ex)
+              const order = selectedExercises.indexOf(ex) + 1
+
+              return (
+                <button
+                  key={ex}
+                  type="button"
+                  onClick={() => toggleExercise(ex)}
+                  className={`rounded-lg px-3 py-2.5 text-left text-sm font-medium transition ${
+                    isSelected
+                      ? "bg-accent/20 ring-2 ring-accent text-white"
+                      : selectedExercises.length >= 3
+                        ? "bg-white/5 text-gray-600 cursor-not-allowed"
+                        : "bg-white/5 text-gray-300 hover:bg-white/10"
+                  }`}
+                >
+                  {isSelected && <span className="mr-1 text-accent font-bold">{order}.</span>}
+                  {ex}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <Button type="submit" fullWidth disabled={loading || selectedExercises.length !== 3}>
           {loading ? "Создание..." : "Создать событие"}
         </Button>
       </form>

@@ -1,16 +1,16 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/Button"
 import { Timer } from "@/components/ui/Timer"
 import { Modal } from "@/components/ui/Modal"
 import { StageIndicator } from "./StageIndicator"
-import { getStage, isCognitiveStage, isLastStage } from "@/lib/stages"
-import { LogicBlock } from "@/components/tests/LogicBlock"
-import { MemoryBlock } from "@/components/tests/MemoryBlock"
-import { ReactionBlock } from "@/components/tests/ReactionBlock"
-import { VisualFinalBlock } from "@/components/tests/VisualFinalBlock"
+import { buildStages, isCognitiveStage, isLastStage, stageToStationIndex, TOTAL_STAGES } from "@/lib/stages"
+import { CognitiveBlock } from "@/components/tests/CognitiveBlock"
+import { formatTime } from "@/lib/utils"
+import type { Stage } from "@/lib/stages"
+import type { BlockResult } from "@/lib/test-engine"
 
 interface AttemptData {
   id: string
@@ -21,21 +21,14 @@ interface AttemptData {
   totalTimeSec: number
   totalCorrect: number
   totalWrong: number
+  penaltyTimeSec: number
   participant: { displayName: string; bibNumber: string; gender: string; age: number }
-  event: { eventName: string; hallName: string; eventDate: string }
+  event: { eventName: string; hallName: string; eventDate: string; exercises: string[] }
   stageResults: Array<{
     stageNo: number
     stageType: string
-    correctAnswers: number
-    wrongAnswers: number
+    penaltySec: number
   }>
-}
-
-interface BlockResult {
-  correctAnswers: number
-  wrongAnswers: number
-  skippedAnswers: number
-  rawAnswersJson: unknown
 }
 
 export function AttemptScreen({ attemptId }: { attemptId: string }) {
@@ -43,14 +36,25 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
   const [loading, setLoading] = useState(true)
   const [actionLock, setActionLock] = useState(false)
   const [showAbortModal, setShowAbortModal] = useState(false)
-  const [inCognitiveTest, setInCognitiveTest] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [pendingPenalty, setPendingPenalty] = useState(0)
+
+  const lastStageResultRef = useRef<BlockResult | null>(null)
+
+  // Penalty is derived from saved stage results plus any penalty from the
+  // just-finished cognitive block that may not yet be reflected in attempt state.
+  const savedPenalty = (attempt?.stageResults || []).reduce(
+    (sum, sr) => sum + (sr.penaltySec || 0),
+    0
+  )
+  const penaltyAccumulator = savedPenalty + pendingPenalty
 
   const fetchAttempt = useCallback(async () => {
     const res = await fetch(`/api/attempts/${attemptId}`)
     if (res.ok) {
       const data = await res.json()
       setAttempt(data)
+      setPendingPenalty(0)
     }
     setLoading(false)
   }, [attemptId])
@@ -58,6 +62,8 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
   useEffect(() => {
     fetchAttempt()
   }, [fetchAttempt])
+
+  const stages: Stage[] = attempt ? buildStages(attempt.event.exercises) : []
 
   async function handleStart() {
     setActionLock(true)
@@ -70,21 +76,21 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     setTimeout(() => setActionLock(false), 2000)
   }
 
-  const lastStageResultRef = { current: null as BlockResult | undefined | null }
-
   async function handleNextLevel(stageResult?: BlockResult) {
     if (stageResult !== undefined) lastStageResultRef.current = stageResult
     setActionLock(true)
-    setInCognitiveTest(false)
     setError(null)
     try {
+      const resultToSend = stageResult ?? lastStageResultRef.current
       const res = await fetch("/api/attempts/next-level", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ attemptId, stageResult: stageResult ?? lastStageResultRef.current }),
+        body: JSON.stringify({ attemptId, stageResult: resultToSend }),
       })
       if (res.ok) {
-        setAttempt(await res.json())
+        const data = await res.json()
+        setAttempt(data)
+        setPendingPenalty(0)
         lastStageResultRef.current = null
       } else {
         const msg = await res.text().catch(() => "")
@@ -112,15 +118,22 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     setActionLock(false)
   }
 
+  function handleCognitiveComplete(result: BlockResult) {
+    // Immediately add penalty to the displayed timer so the subsequent
+    // physical stage starts with the cognitive stage penalty already counted.
+    setPendingPenalty((p) => p + result.penaltySec)
+    handleNextLevel(result)
+  }
+
   if (loading || !attempt) {
     return <div className="flex min-h-screen items-center justify-center text-xl">Загрузка...</div>
   }
 
-  const stage = getStage(attempt.currentStageNo)
-  const isCognitive = stage && isCognitiveStage(attempt.currentStageNo)
+  const currentStage = stages.find((s) => s.stageNo === attempt.currentStageNo)
+  const isCognitive = currentStage && isCognitiveStage(attempt.currentStageNo)
   const isLast = isLastStage(attempt.currentStageNo)
 
-  // REGISTERED — show start screen
+  // REGISTERED
   if (attempt.status === "registered") {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6 text-center">
@@ -148,16 +161,15 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
         <h1 className="text-4xl font-black text-accent">ФИНИШ!</h1>
         <p className="text-xl">{attempt.participant.displayName}</p>
-        <Timer startedAt={attempt.startedAt} stoppedAt={attempt.finishedAt} />
-        <div className="flex gap-8 text-xl">
-          <div>
-            <span className="text-accent font-bold">{attempt.totalCorrect}</span> правильно
-          </div>
-          <div>
-            <span className="text-red-400 font-bold">{attempt.totalWrong}</span> ошибок
-          </div>
+        <div className="font-mono text-5xl font-black tracking-wider text-accent">
+          {formatTime(attempt.totalTimeSec)}
         </div>
-        <StageIndicator currentStageNo={attempt.currentStageNo} status={attempt.status} />
+        {attempt.penaltyTimeSec > 0 && (
+          <p className="text-sm text-red-400">
+            (включая штраф +{attempt.penaltyTimeSec}с)
+          </p>
+        )}
+        <StageIndicator stages={stages} currentStageNo={attempt.currentStageNo} status={attempt.status} />
         <Link
           href="/"
           className="mt-4 inline-flex min-h-btn items-center justify-center rounded-xl bg-surface-card px-10 py-4 text-lg font-bold transition hover:bg-surface-light"
@@ -174,8 +186,15 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
         <h1 className="text-4xl font-black text-red-400">ПРЕРВАНО</h1>
         <p className="text-xl">{attempt.participant.displayName}</p>
-        <Timer startedAt={attempt.startedAt} stoppedAt={attempt.finishedAt} />
-        <StageIndicator currentStageNo={attempt.currentStageNo} status={attempt.status} />
+        <div className="font-mono text-5xl font-black tracking-wider text-accent">
+          {formatTime(attempt.totalTimeSec)}
+        </div>
+        {attempt.penaltyTimeSec > 0 && (
+          <p className="text-sm text-red-400">
+            (включая штраф +{attempt.penaltyTimeSec}с)
+          </p>
+        )}
+        <StageIndicator stages={stages} currentStageNo={attempt.currentStageNo} status={attempt.status} />
         <Link
           href="/"
           className="mt-4 inline-flex min-h-btn items-center justify-center rounded-xl bg-surface-card px-10 py-4 text-lg font-bold transition hover:bg-surface-light"
@@ -186,39 +205,37 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     )
   }
 
-  // IN PROGRESS — cognitive test active
-  if (isCognitive && (inCognitiveTest || true)) {
-    const testType = stage!.testType!
-    const blockProps = {
-      onComplete: (result: BlockResult) => handleNextLevel(result),
-    }
+  // IN PROGRESS — cognitive stage
+  if (isCognitive) {
+    const stationIdx = stageToStationIndex(attempt.currentStageNo)
 
     return (
       <div className="flex min-h-screen flex-col p-4">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <span className="text-sm text-gray-400">Этап {attempt.currentStageNo}/8</span>
-            <h2 className="text-xl font-bold">{stage!.title}</h2>
+            <span className="text-sm text-gray-400">Этап {attempt.currentStageNo}/{TOTAL_STAGES}</span>
+            <h2 className="text-xl font-bold">{currentStage!.title}</h2>
           </div>
-          <Timer startedAt={attempt.startedAt} stoppedAt={null} />
+          <Timer startedAt={attempt.startedAt} stoppedAt={null} penaltySec={penaltyAccumulator} />
         </div>
-        <StageIndicator currentStageNo={attempt.currentStageNo} status={attempt.status} />
+        <StageIndicator stages={stages} currentStageNo={attempt.currentStageNo} status={attempt.status} />
 
         {error && (
           <div className="mt-4 rounded-xl bg-red-500/20 border border-red-500/40 p-4 text-center">
             <p className="text-red-300 font-semibold mb-3">{error}</p>
             <Button onClick={() => handleNextLevel()} disabled={actionLock} className="px-10 py-4 text-lg">
-              {isLast ? "ЗАВЕРШИТЬ" : "ПОВТОРИТЬ"}
+              ПОВТОРИТЬ
             </Button>
           </div>
         )}
 
         {!error && (
           <div className="mt-4 flex-1">
-            {testType === "logic" && <LogicBlock {...blockProps} />}
-            {testType === "memory" && <MemoryBlock {...blockProps} />}
-            {testType === "reaction" && <ReactionBlock {...blockProps} />}
-            {testType === "visual_final" && <VisualFinalBlock {...blockProps} />}
+            <CognitiveBlock
+              key={attempt.currentStageNo}
+              stationIndex={stationIdx}
+              onComplete={handleCognitiveComplete}
+            />
           </div>
         )}
         <div className="mt-4">
@@ -246,16 +263,14 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
         <span className="text-lg font-bold">{attempt.participant.displayName}</span>
       </div>
 
-      <Timer startedAt={attempt.startedAt} stoppedAt={null} />
+      <Timer startedAt={attempt.startedAt} stoppedAt={null} penaltySec={penaltyAccumulator} />
 
-      <StageIndicator currentStageNo={attempt.currentStageNo} status={attempt.status} />
+      <StageIndicator stages={stages} currentStageNo={attempt.currentStageNo} status={attempt.status} />
 
       <div className="my-4">
-        <p className="text-sm font-semibold text-accent">ЭТАП {attempt.currentStageNo} / 8</p>
-        <h2 className="mt-2 text-3xl font-black">{stage?.title}</h2>
-        <p className="mt-2 text-gray-400">
-          {stage?.type === "physical" ? "Выполните упражнение и нажмите ДАЛЕЕ" : ""}
-        </p>
+        <p className="text-sm font-semibold text-accent">ЭТАП {attempt.currentStageNo} / {TOTAL_STAGES}</p>
+        <h2 className="mt-2 text-3xl font-black">{currentStage?.title}</h2>
+        <p className="mt-2 text-gray-400">Выполните упражнение и нажмите ДАЛЕЕ</p>
       </div>
 
       {error && (
@@ -275,9 +290,9 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
 
       <Modal
         open={showAbortModal}
-        title="Abort Attempt?"
-        message="Are you sure you want to abort? This cannot be undone."
-        confirmText="Abort"
+        title="Прервать попытку?"
+        message="Вы уверены? Это действие нельзя отменить."
+        confirmText="Прервать"
         onConfirm={handleAbort}
         onCancel={() => setShowAbortModal(false)}
       />

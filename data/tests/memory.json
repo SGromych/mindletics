@@ -1,49 +1,258 @@
-[
-  {
-    "id": "mem-1",
-    "type": "memorise-objects",
-    "prompt": {
-      "showItems": ["star", "heart", "moon", "sun", "diamond"],
-      "showDurationMs": 4000
-    },
-    "selectable": ["star", "heart", "moon", "sun", "diamond", "cloud", "bolt", "leaf"],
-    "correctItems": ["star", "heart", "moon", "sun", "diamond"]
+{
+  "meta": {
+    "schema_version": "1.0",
+    "default_prep_time_sec": 3,
+    "default_answer_time_sec": 20,
+    "default_penalty_sec": 20,
+    "locale": "ru",
+    "notes": "Все тесты рассчитаны на генерацию интерфейса кодом без внешних изображений. Пространственные и визуальные элементы должны рендериться через SVG/CSS/Canvas."
   },
-  {
-    "id": "mem-2",
-    "type": "memorise-objects",
-    "prompt": {
-      "showItems": ["bolt", "cloud", "leaf", "flame"],
-      "showDurationMs": 3000
+  "items": [
+    {
+      "id": "memory_01",
+      "category": "memory",
+      "subtype": "grid_positions",
+      "difficulty": "medium",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните отмеченные клетки, затем выберите те же 6 клеток на пустой сетке 6×6.",
+      "render": {
+        "mode": "memory_grid",
+        "grid_size": 6,
+        "memorize_time_sec": 4,
+        "selection_mode": "toggle_multiple",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "cells_to_memorize": [
+          [1, 2],
+          [2, 5],
+          [3, 1],
+          [4, 4],
+          [5, 6],
+          [6, 3]
+        ]
+      },
+      "correct_answer": [
+        [1, 2],
+        [2, 5],
+        [3, 1],
+        [4, 4],
+        [5, 6],
+        [6, 3]
+      ]
     },
-    "selectable": ["bolt", "cloud", "leaf", "flame", "star", "heart", "moon", "drop"],
-    "correctItems": ["bolt", "cloud", "leaf", "flame"]
-  },
-  {
-    "id": "mem-3",
-    "type": "memorise-grid",
-    "prompt": {
-      "gridSize": 4,
-      "highlightedCells": [[0, 1], [1, 3], [2, 0], [3, 2]],
-      "showDurationMs": 3000
+    {
+      "id": "memory_02",
+      "category": "memory",
+      "subtype": "grid_positions",
+      "difficulty": "medium",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните отмеченные клетки, затем выберите те же 6 клеток на пустой сетке 6×6.",
+      "render": {
+        "mode": "memory_grid",
+        "grid_size": 6,
+        "memorize_time_sec": 4,
+        "selection_mode": "toggle_multiple",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "cells_to_memorize": [
+          [1, 6],
+          [2, 2],
+          [3, 4],
+          [4, 1],
+          [5, 5],
+          [6, 3]
+        ]
+      },
+      "correct_answer": [
+        [1, 6],
+        [2, 2],
+        [3, 4],
+        [4, 1],
+        [5, 5],
+        [6, 3]
+      ]
+    },
+    {
+      "id": "memory_03",
+      "category": "memory",
+      "subtype": "grid_positions",
+      "difficulty": "hard",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните отмеченные клетки, затем выберите те же 6 клеток на пустой сетке 6×6.",
+      "render": {
+        "mode": "memory_grid",
+        "grid_size": 6,
+        "memorize_time_sec": 4,
+        "selection_mode": "toggle_multiple",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "cells_to_memorize": [
+          [1, 1],
+          [2, 5],
+          [3, 3],
+          [4, 6],
+          [5, 2],
+          [6, 4]
+        ]
+      },
+      "correct_answer": [
+        [1, 1],
+        [2, 5],
+        [3, 3],
+        [4, 6],
+        [5, 2],
+        [6, 4]
+      ]
+    },
+    {
+      "id": "memory_04",
+      "category": "memory",
+      "subtype": "symbol_sequence",
+      "difficulty": "medium",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните последовательность символов и воспроизведите её в том же порядке.",
+      "render": {
+        "mode": "sequence_recall",
+        "display_one_by_one": true,
+        "symbol_set": ["▲", "■", "●", "◆", "✚", "★"],
+        "selection_mode": "ordered_clicks",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "shown_sequence": ["▲", "■", "◆", "●", "★"]
+      },
+      "correct_answer": ["▲", "■", "◆", "●", "★"]
+    },
+    {
+      "id": "memory_05",
+      "category": "memory",
+      "subtype": "symbol_sequence",
+      "difficulty": "medium",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните последовательность символов и воспроизведите её в том же порядке.",
+      "render": {
+        "mode": "sequence_recall",
+        "display_one_by_one": true,
+        "symbol_set": ["▲", "■", "●", "◆", "✚", "★"],
+        "selection_mode": "ordered_clicks",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "shown_sequence": ["●", "★", "▲", "◆", "■"]
+      },
+      "correct_answer": ["●", "★", "▲", "◆", "■"]
+    },
+    {
+      "id": "memory_06",
+      "category": "memory",
+      "subtype": "symbol_sequence",
+      "difficulty": "hard",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните последовательность символов и воспроизведите её в том же порядке.",
+      "render": {
+        "mode": "sequence_recall",
+        "display_one_by_one": true,
+        "symbol_set": ["▲", "■", "●", "◆", "✚", "★"],
+        "selection_mode": "ordered_clicks",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "shown_sequence": ["◆", "✚", "■", "▲", "●"]
+      },
+      "correct_answer": ["◆", "✚", "■", "▲", "●"]
+    },
+    {
+      "id": "memory_07",
+      "category": "memory",
+      "subtype": "object_recognition",
+      "difficulty": "medium",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните 6 символов, затем выберите те, которые были показаны ранее.",
+      "render": {
+        "mode": "multi_select_symbols",
+        "memorize_time_sec": 4,
+        "selection_mode": "toggle_multiple",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "shown_items": ["▲", "■", "●", "◆", "✚", "★"],
+        "selectable_items": ["▲", "■", "●", "◆", "✚", "★", "☀", "☂", "♥", "♣"]
+      },
+      "correct_answer": ["▲", "■", "●", "◆", "✚", "★"]
+    },
+    {
+      "id": "memory_08",
+      "category": "memory",
+      "subtype": "object_recognition",
+      "difficulty": "medium",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните 6 символов, затем выберите те, которые были показаны ранее.",
+      "render": {
+        "mode": "multi_select_symbols",
+        "memorize_time_sec": 4,
+        "selection_mode": "toggle_multiple",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "shown_items": ["☀", "☂", "♥", "♣", "★", "◆"],
+        "selectable_items": ["▲", "☂", "●", "◆", "♣", "★", "☀", "■", "♥", "✚"]
+      },
+      "correct_answer": ["☀", "☂", "♥", "♣", "★", "◆"]
+    },
+    {
+      "id": "memory_09",
+      "category": "memory",
+      "subtype": "object_recognition",
+      "difficulty": "hard",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните 6 символов, затем выберите те, которые были показаны ранее.",
+      "render": {
+        "mode": "multi_select_symbols",
+        "memorize_time_sec": 4,
+        "selection_mode": "toggle_multiple",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "shown_items": ["☾", "☼", "✿", "✦", "⬟", "⬢"],
+        "selectable_items": ["☾", "☼", "✿", "✦", "⬟", "⬢", "▲", "■", "●", "◆"]
+      },
+      "correct_answer": ["☾", "☼", "✿", "✦", "⬟", "⬢"]
+    },
+    {
+      "id": "memory_10",
+      "category": "memory",
+      "subtype": "grid_positions",
+      "difficulty": "hard",
+      "prompt_title": "Память",
+      "prompt_text": "Запомните отмеченные клетки, затем выберите те же 6 клеток на пустой сетке 6×6.",
+      "render": {
+        "mode": "memory_grid",
+        "grid_size": 6,
+        "memorize_time_sec": 4,
+        "selection_mode": "toggle_multiple",
+        "scoring_mode": "exact_match"
+      },
+      "payload": {
+        "cells_to_memorize": [
+          [1, 3],
+          [2, 6],
+          [3, 2],
+          [4, 5],
+          [5, 1],
+          [6, 4]
+        ]
+      },
+      "correct_answer": [
+        [1, 3],
+        [2, 6],
+        [3, 2],
+        [4, 5],
+        [5, 1],
+        [6, 4]
+      ]
     }
-  },
-  {
-    "id": "mem-4",
-    "type": "memorise-grid",
-    "prompt": {
-      "gridSize": 4,
-      "highlightedCells": [[0, 0], [0, 3], [2, 1], [3, 3], [1, 2]],
-      "showDurationMs": 3500
-    }
-  },
-  {
-    "id": "mem-5",
-    "type": "memorise-sequence",
-    "prompt": {
-      "sequence": ["circle", "square", "triangle", "star"],
-      "showIntervalMs": 1000
-    },
-    "allShapes": ["circle", "square", "triangle", "star", "diamond"]
-  }
-]
+  ]
+}
