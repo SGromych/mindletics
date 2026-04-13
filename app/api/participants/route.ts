@@ -3,11 +3,11 @@ import { prisma } from "@/lib/prisma"
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { displayName, gender, age, bibNumber, eventId } = body
+  const { firstName, lastName, birthDate, gender, bibNumber, eventId } = body
 
-  if (!displayName || !gender || !age || !bibNumber || !eventId) {
+  if (!firstName || !lastName || !birthDate || !gender || !bibNumber || !eventId) {
     return NextResponse.json(
-      { error: "displayName, gender, age, bibNumber, eventId are required" },
+      { error: "firstName, lastName, birthDate, gender, bibNumber, eventId are required" },
       { status: 400 }
     )
   }
@@ -25,9 +25,10 @@ export async function POST(req: NextRequest) {
 
   const participant = await prisma.participant.create({
     data: {
-      displayName,
+      firstName,
+      lastName,
+      birthDate: new Date(birthDate),
       gender,
-      age: Number(age),
       bibNumber,
       eventId,
     },

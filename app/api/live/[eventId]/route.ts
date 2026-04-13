@@ -31,10 +31,10 @@ export async function GET(_req: NextRequest, { params }: { params: { eventId: st
 
     return {
       attemptId: a.id,
-      displayName: a.participant.displayName,
+      displayName: `${a.participant.lastName} ${a.participant.firstName.charAt(0)}.`,
       bibNumber: a.participant.bibNumber,
       gender: a.participant.gender,
-      age: a.participant.age,
+      age: Math.floor((Date.now() - new Date(a.participant.birthDate).getTime()) / (365.25 * 24 * 60 * 60 * 1000)),
       status: a.status,
       currentStageNo: a.currentStageNo,
       currentStageTitle: stage?.title || "",

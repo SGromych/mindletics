@@ -32,9 +32,10 @@ model Event {
 
 model Participant {
   id          String    @id @default(cuid())
-  displayName String
+  firstName   String
+  lastName    String
+  birthDate   DateTime
   gender      Gender
-  age         Int
   bibNumber   String
   eventId     String
   event       Event     @relation(fields: [eventId], references: [id])

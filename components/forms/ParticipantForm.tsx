@@ -33,9 +33,10 @@ export function ParticipantForm() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        displayName: form.get("displayName"),
+        lastName: form.get("lastName"),
+        firstName: form.get("firstName"),
+        birthDate: form.get("birthDate"),
         gender: form.get("gender"),
-        age: Number(form.get("age")),
         bibNumber: form.get("bibNumber"),
         eventId: form.get("eventId"),
       }),
@@ -57,9 +58,28 @@ export function ParticipantForm() {
       {error && <p className="mb-4 rounded-lg bg-red-900/50 p-3 text-red-300">{error}</p>}
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-semibold text-gray-400">Ник</span>
+          <span className="text-sm font-semibold text-gray-400">Фамилия</span>
           <input
-            name="displayName"
+            name="lastName"
+            required
+            className="min-h-[56px] rounded-xl bg-surface px-4 text-lg outline-none ring-1 ring-white/20 focus:ring-accent"
+          />
+        </label>
+
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-semibold text-gray-400">Имя</span>
+          <input
+            name="firstName"
+            required
+            className="min-h-[56px] rounded-xl bg-surface px-4 text-lg outline-none ring-1 ring-white/20 focus:ring-accent"
+          />
+        </label>
+
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-semibold text-gray-400">Дата рождения</span>
+          <input
+            name="birthDate"
+            type="date"
             required
             className="min-h-[56px] rounded-xl bg-surface px-4 text-lg outline-none ring-1 ring-white/20 focus:ring-accent"
           />
@@ -78,18 +98,6 @@ export function ParticipantForm() {
             </label>
           </div>
         </fieldset>
-
-        <label className="flex flex-col gap-2">
-          <span className="text-sm font-semibold text-gray-400">Возраст</span>
-          <input
-            name="age"
-            type="number"
-            min={10}
-            max={99}
-            required
-            className="min-h-[56px] rounded-xl bg-surface px-4 text-lg outline-none ring-1 ring-white/20 focus:ring-accent"
-          />
-        </label>
 
         <label className="flex flex-col gap-2">
           <span className="text-sm font-semibold text-gray-400">Номер дорожки атлета</span>

@@ -3,6 +3,10 @@ import { prisma } from "@/lib/prisma"
 import { sortForLeaderboard } from "@/lib/scoring"
 import { Gender } from "@prisma/client"
 
+function computeAge(birthDate: Date): number {
+  return Math.floor((Date.now() - new Date(birthDate).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+}
+
 export async function GET(req: NextRequest) {
   const url = new URL(req.url)
   const eventId = url.searchParams.get("eventId")
@@ -22,8 +26,19 @@ export async function GET(req: NextRequest) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const participantWhere: any = {}
   if (gender) participantWhere.gender = gender
-  if (ageMin) participantWhere.age = { ...participantWhere.age, gte: Number(ageMin) }
-  if (ageMax) participantWhere.age = { ...participantWhere.age, lte: Number(ageMax) }
+
+  // Convert age filters to birthDate range
+  const now = new Date()
+  if (ageMax) {
+    // ageMax=30 means born at least 30 years ago → birthDate >= (now - 31 years + 1 day approx)
+    const minBirth = new Date(now.getFullYear() - Number(ageMax) - 1, now.getMonth(), now.getDate())
+    participantWhere.birthDate = { ...participantWhere.birthDate, gte: minBirth }
+  }
+  if (ageMin) {
+    // ageMin=20 means born at most 20 years ago → birthDate <= (now - 20 years)
+    const maxBirth = new Date(now.getFullYear() - Number(ageMin), now.getMonth(), now.getDate())
+    participantWhere.birthDate = { ...participantWhere.birthDate, lte: maxBirth }
+  }
 
   const attempts = await prisma.attempt.findMany({
     where: {
@@ -39,10 +54,10 @@ export async function GET(req: NextRequest) {
 
   const rows = attempts.map((a) => ({
     attemptId: a.id,
-    displayName: a.participant.displayName,
+    displayName: `${a.participant.lastName} ${a.participant.firstName.charAt(0)}.`,
     bibNumber: a.participant.bibNumber,
     gender: a.participant.gender,
-    age: a.participant.age,
+    age: computeAge(a.participant.birthDate),
     eventName: a.event.eventName,
     eventDate: a.event.eventDate,
     status: a.status,

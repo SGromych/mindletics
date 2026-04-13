@@ -11,15 +11,53 @@ export const STATION_MAX_SEC = 180
 
 type Category = "logic" | "memory" | "reaction" | "spatial" | "stroop"
 
-const CATEGORIES: Category[] = ["logic", "stroop", "memory", "reaction", "spatial"]
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TEST_BANKS: Record<Category, any[]> = {
   logic: (logicData as { items: unknown[] }).items,
   memory: (memoryData as { items: unknown[] }).items,
-  reaction: (reactionData as { items: unknown[] }).items,
+  reaction: (reactionData as { items: unknown[] }).items.filter(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (t: any) => t.subtype === "target_number_search"
+  ),
   spatial: (spatialData as { items: unknown[] }).items,
   stroop: (stroopData as { items: unknown[] }).items,
+}
+
+// How many tasks to pick per category per station
+const PICKS_PER_CATEGORY: Record<Category, number> = {
+  logic: 2,
+  memory: 2,
+  spatial: 2,
+  stroop: 1,
+  reaction: 1,
+}
+
+// Simple seeded PRNG (mulberry32) — deterministic per eventId
+function seededRng(seed: number): () => number {
+  let s = seed | 0
+  return () => {
+    s = (s + 0x6d2b79f5) | 0
+    let t = Math.imul(s ^ (s >>> 15), 1 | s)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+function hashString(str: string): number {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0
+  }
+  return hash
+}
+
+function shuffleWithRng<T>(arr: T[], rng: () => number): T[] {
+  const result = [...arr]
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -31,28 +69,65 @@ function shuffleArray<T>(arr: T[]): T[] {
   return result
 }
 
+// Generate random grid cells for memory_grid tasks, deterministic per eventId + taskId
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function shuffleOptions(task: any): any {
-  if (!Array.isArray(task.options)) return task
-  const mode = task.render?.mode
-  if (mode === "memory_grid" || mode === "sequence_recall" || mode === "go_no_go_single_button") {
-    return task
+function randomizeGridCells(task: any, rng: () => number): any {
+  if (task.render?.mode !== "memory_grid") return task
+  const gridSize: number = task.render.grid_size || 6
+  const cellCount = task.payload.cells_to_memorize.length
+
+  const allCells: number[][] = []
+  for (let r = 1; r <= gridSize; r++) {
+    for (let c = 1; c <= gridSize; c++) {
+      allCells.push([r, c])
+    }
   }
-  return { ...task, options: shuffleArray(task.options) }
+
+  const shuffled = shuffleWithRng(allCells, rng)
+  const newCells = shuffled.slice(0, cellCount)
+  return {
+    ...task,
+    payload: { ...task.payload, cells_to_memorize: newCells },
+    correct_answer: newCells,
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function buildCognitiveBlock(stationIndex: 0 | 1 | 2): any[] {
-  const tasks: unknown[] = []
+function shuffleOptions(task: any, rng?: () => number): any {
+  if (!Array.isArray(task.options)) return task
+  const mode = task.render?.mode
+  if (mode === "memory_grid" || mode === "sequence_recall") {
+    return task
+  }
+  const shuffled = rng ? shuffleWithRng(task.options, rng) : shuffleArray(task.options)
+  return { ...task, options: shuffled }
+}
 
-  for (const cat of CATEGORIES) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function buildCognitiveBlock(stationIndex: 0 | 1 | 2, eventId?: string): any[] {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tasks: any[] = []
+
+  const categories: Category[] = ["logic", "stroop", "memory", "reaction", "spatial"]
+
+  for (const cat of categories) {
     const items = TEST_BANKS[cat]
-    const start = stationIndex * 2
-    const picked = items.slice(start, start + 2)
+    const pick = PICKS_PER_CATEGORY[cat]
+    const start = stationIndex * pick
+    const picked = items.slice(start, start + pick)
     tasks.push(...picked)
   }
 
-  return shuffleArray(tasks).map(shuffleOptions)
+  if (eventId) {
+    // Seeded shuffle — same order for all participants in the same event+station
+    const rng = seededRng(hashString(eventId + ":station:" + stationIndex))
+    return shuffleWithRng(tasks, rng)
+      .map((t) => shuffleOptions(t, rng))
+      .map((t) => randomizeGridCells(t, rng))
+  }
+
+  // Fallback: random (for debug/preview)
+  return shuffleArray(tasks).map((t) => shuffleOptions(t))
 }
 
 export interface AnswerLogEntry {

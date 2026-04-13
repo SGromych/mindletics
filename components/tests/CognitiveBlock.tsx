@@ -21,17 +21,16 @@ import { MemoryGridRenderer } from "./MemoryGridRenderer"
 import { SymbolSequenceRenderer } from "./SymbolSequenceRenderer"
 import { ObjectRecognitionRenderer } from "./ObjectRecognitionRenderer"
 import { ReactionNumberRenderer } from "./ReactionNumberRenderer"
-import { ChoiceReactionRenderer } from "./ChoiceReactionRenderer"
-import { GoNoGoRenderer } from "./GoNoGoRenderer"
 
 interface Props {
   stationIndex: 0 | 1 | 2
+  eventId?: string
   onComplete: (result: BlockResult) => void
 }
 
-export function CognitiveBlock({ stationIndex, onComplete }: Props) {
+export function CognitiveBlock({ stationIndex, eventId, onComplete }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tasks = useMemo(() => buildCognitiveBlock(stationIndex), [stationIndex])
+  const tasks = useMemo(() => buildCognitiveBlock(stationIndex, eventId), [stationIndex, eventId])
   const totalTasks = tasks.length
 
   const [currentTask, setCurrentTask] = useState(0)
@@ -40,6 +39,7 @@ export function CognitiveBlock({ stationIndex, onComplete }: Props) {
   const [stationTimeLeft, setStationTimeLeft] = useState(STATION_MAX_SEC)
   const [questionTimeLeft, setQuestionTimeLeft] = useState(ANSWER_TIME_SEC)
   const [penaltyTotal, setPenaltyTotal] = useState(0)
+  const [countdown, setCountdown] = useState(PREP_TIME_SEC)
 
   const taskStartRef = useRef(Date.now())
   const answeredRef = useRef(false)
@@ -73,16 +73,24 @@ export function CognitiveBlock({ stationIndex, onComplete }: Props) {
     }
   }, [stationTimeLeft, answers, finishBlock])
 
-  // Prep phase timer
+  // Prep phase timer with countdown
   useEffect(() => {
     if (phase !== "prep") return
-    const timer = setTimeout(() => {
-      setPhase("answer")
-      setQuestionTimeLeft(ANSWER_TIME_SEC)
-      taskStartRef.current = Date.now()
-      answeredRef.current = false
-    }, PREP_TIME_SEC * 1000)
-    return () => clearTimeout(timer)
+    setCountdown(PREP_TIME_SEC)
+    const id = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(id)
+          setPhase("answer")
+          setQuestionTimeLeft(ANSWER_TIME_SEC)
+          taskStartRef.current = Date.now()
+          answeredRef.current = false
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    return () => clearInterval(id)
   }, [phase, currentTask])
 
   // Question timer countdown
@@ -178,9 +186,9 @@ export function CognitiveBlock({ stationIndex, onComplete }: Props) {
           <span className="text-sm text-gray-500">Станция: {formatTime(stationTimeLeft)}</span>
         </div>
         <p className="text-lg text-gray-400">Задание {currentTask + 1} / {totalTasks}</p>
-        <p className="text-2xl font-bold">{task.prompt_title}</p>
+        <p className="text-2xl font-bold">{task.prompt_text}</p>
         <div className="text-6xl font-black text-accent animate-pulse">
-          {PREP_TIME_SEC}
+          {countdown}
         </div>
         <p className="text-gray-500">Приготовьтесь...</p>
         {penaltyTotal > 0 && (
@@ -233,12 +241,6 @@ export function CognitiveBlock({ stationIndex, onComplete }: Props) {
         )}
         {renderMode === "animated_number_grid" && (
           <ReactionNumberRenderer task={task} onAnswer={handleAnswer} />
-        )}
-        {renderMode === "single_stimulus_buttons" && (
-          <ChoiceReactionRenderer task={task} onAnswer={handleAnswer} />
-        )}
-        {renderMode === "go_no_go_single_button" && (
-          <GoNoGoRenderer task={task} onAnswer={handleAnswer} />
         )}
       </div>
     </div>

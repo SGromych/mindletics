@@ -19,7 +19,9 @@ function shuffle<T>(arr: T[]): T[] {
 
 const HIGHLIGHT_COLORS = ["#f97316", "#ec4899", "#14b8a6", "#eab308", "#a855f7"]
 
-type Effect = "move" | "highlight" | "none"
+type Effect = "move" | "highlight" | "spin" | "shake" | "blink" | "scale_pulse" | "none"
+
+const EFFECT_POOL: Effect[] = ["move", "move", "highlight", "highlight", "spin", "shake", "blink", "scale_pulse", "none"]
 
 export function ReactionNumberRenderer({ task, onAnswer }: Props) {
   const target: string = task.payload.target
@@ -27,16 +29,9 @@ export function ReactionNumberRenderer({ task, onAnswer }: Props) {
   const rawOptions: any[] = task.payload.options
 
   const displayOptions = useMemo(() => {
-    // Randomize effect distribution: 2 move, 2 highlight, 2 plain.
-    // Target digit can end up in any group.
     const values = rawOptions.map((o) => o.value as string)
     const shuffled = shuffle(values)
-    const effects: Effect[] = []
-    for (let i = 0; i < shuffled.length; i++) {
-      if (i < 2) effects.push("move")
-      else if (i < 4) effects.push("highlight")
-      else effects.push("none")
-    }
+    const effects = shuffle([...EFFECT_POOL]).slice(0, shuffled.length)
     const colorPool = shuffle(HIGHLIGHT_COLORS)
     let colorIdx = 0
     return shuffled.map((value, i) => ({
@@ -46,6 +41,8 @@ export function ReactionNumberRenderer({ task, onAnswer }: Props) {
     }))
   }, [rawOptions])
 
+  const gridCols = displayOptions.length > 6 ? "grid-cols-3" : "grid-cols-3"
+
   return (
     <div className="flex flex-col items-center gap-6">
       <p className="text-lg text-gray-300">{task.prompt_text}</p>
@@ -54,14 +51,35 @@ export function ReactionNumberRenderer({ task, onAnswer }: Props) {
         <span className="text-3xl font-mono font-bold text-accent">Найдите: {target}</span>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 w-full max-w-lg">
+      <div className={`grid ${gridCols} gap-3 w-full max-w-lg`}>
         {displayOptions.map((opt) => {
-          const animClass = opt.effect === "move" ? "animate-bounce" : ""
+          let animClass = ""
           const style: React.CSSProperties = {}
-          if (opt.effect === "highlight" && opt.color) {
-            style.backgroundColor = opt.color
-            style.color = "#fff"
+
+          switch (opt.effect) {
+            case "move":
+              animClass = "animate-bounce"
+              break
+            case "highlight":
+              if (opt.color) {
+                style.backgroundColor = opt.color
+                style.color = "#fff"
+              }
+              break
+            case "spin":
+              style.animation = "spin 3s linear infinite"
+              break
+            case "shake":
+              style.animation = "shake 0.5s ease-in-out infinite"
+              break
+            case "blink":
+              style.animation = "blink 1s ease-in-out infinite"
+              break
+            case "scale_pulse":
+              style.animation = "scale-pulse 1.2s ease-in-out infinite"
+              break
           }
+
           return (
             <button
               key={opt.value}
@@ -76,6 +94,22 @@ export function ReactionNumberRenderer({ task, onAnswer }: Props) {
           )
         })}
       </div>
+
+      <style jsx>{`
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-6px); }
+          75% { transform: translateX(6px); }
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.2; }
+        }
+        @keyframes scale-pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
+      `}</style>
     </div>
   )
 }

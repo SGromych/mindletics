@@ -14,6 +14,7 @@ import type { BlockResult } from "@/lib/test-engine"
 
 interface AttemptData {
   id: string
+  eventId: string
   status: string
   currentStageNo: number
   startedAt: string | null
@@ -22,7 +23,7 @@ interface AttemptData {
   totalCorrect: number
   totalWrong: number
   penaltyTimeSec: number
-  participant: { displayName: string; bibNumber: string; gender: string; age: number }
+  participant: { firstName: string; lastName: string; bibNumber: string; gender: string; birthDate: string }
   event: { eventName: string; hallName: string; eventDate: string; exercises: string[] }
   stageResults: Array<{
     stageNo: number
@@ -139,9 +140,9 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
       <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6 text-center">
         <div>
           <p className="text-sm font-semibold text-gray-400">#{attempt.participant.bibNumber}</p>
-          <h1 className="text-4xl font-black">{attempt.participant.displayName}</h1>
+          <h1 className="text-4xl font-black">{`${attempt.participant.lastName} ${attempt.participant.firstName}`}</h1>
           <p className="mt-1 text-gray-400">
-            {attempt.participant.gender === "male" ? "М" : "Ж"} / {attempt.participant.age} лет
+            {attempt.participant.gender === "male" ? "М" : "Ж"} / {Math.floor((Date.now() - new Date(attempt.participant.birthDate).getTime()) / (365.25 * 24 * 60 * 60 * 1000))} лет
           </p>
         </div>
         <div>
@@ -160,7 +161,7 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
         <h1 className="text-4xl font-black text-accent">ФИНИШ!</h1>
-        <p className="text-xl">{attempt.participant.displayName}</p>
+        <p className="text-xl">{`${attempt.participant.lastName} ${attempt.participant.firstName.charAt(0)}.`}</p>
         <div className="font-mono text-5xl font-black tracking-wider text-accent">
           {formatTime(attempt.totalTimeSec)}
         </div>
@@ -185,7 +186,7 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
         <h1 className="text-4xl font-black text-red-400">ПРЕРВАНО</h1>
-        <p className="text-xl">{attempt.participant.displayName}</p>
+        <p className="text-xl">{`${attempt.participant.lastName} ${attempt.participant.firstName.charAt(0)}.`}</p>
         <div className="font-mono text-5xl font-black tracking-wider text-accent">
           {formatTime(attempt.totalTimeSec)}
         </div>
@@ -234,6 +235,7 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
             <CognitiveBlock
               key={attempt.currentStageNo}
               stationIndex={stationIdx}
+              eventId={attempt.eventId}
               onComplete={handleCognitiveComplete}
             />
           </div>
@@ -260,7 +262,7 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6 text-center">
       <div className="flex items-center gap-4">
         <span className="text-sm text-gray-400">#{attempt.participant.bibNumber}</span>
-        <span className="text-lg font-bold">{attempt.participant.displayName}</span>
+        <span className="text-lg font-bold">{`${attempt.participant.lastName} ${attempt.participant.firstName.charAt(0)}.`}</span>
       </div>
 
       <Timer startedAt={attempt.startedAt} stoppedAt={null} penaltySec={penaltyAccumulator} />

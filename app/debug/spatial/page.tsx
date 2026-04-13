@@ -5,6 +5,11 @@ import spatialData from "@/data/tests/spatial.json"
 import { IsometricRenderer } from "@/components/tests/IsometricRenderer"
 import { TopViewGrid } from "@/components/tests/TopViewGrid"
 
+interface SpatialOption {
+  key: string
+  cells: number[][]
+}
+
 interface SpatialTask {
   id: string
   difficulty: string
@@ -12,6 +17,7 @@ interface SpatialTask {
     blocks: number[][]
     correct_top_view: number[][]
   }
+  options: SpatialOption[]
   correct_answer: string
 }
 
@@ -38,13 +44,11 @@ export default function DebugSpatialPage() {
       <div className="mb-6">
         <h1 className="text-3xl font-black">Debug: Spatial renderer</h1>
         <p className="text-sm text-gray-400">
-          Временная страница для визуальной проверки изометрического рендера.
-          Слева — 3D-рендер (painter&apos;s order), справа — ожидаемый вид сверху.
-          Зелёная галочка — данные consistent (derived top view = correct_top_view).
+          3D-рендер + все варианты ответов (A-F). Правильный вариант подсвечен зелёным.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="flex flex-col gap-8">
         {items.map((task) => {
           const derived = deriveTopView(task.payload.blocks)
           const dataOk = sameCellSet(derived, task.payload.correct_top_view)
@@ -61,17 +65,43 @@ export default function DebugSpatialPage() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-around gap-4">
-                <div className="flex flex-col items-center gap-2">
+              <div className="flex items-start gap-6">
+                <div className="flex flex-col items-center gap-2 shrink-0">
                   <div className="text-xs text-gray-500">3D</div>
                   <div className="rounded-lg bg-black/20 p-3">
-                    <IsometricRenderer blocks={task.payload.blocks} size={180} />
+                    <IsometricRenderer blocks={task.payload.blocks} size={200} />
                   </div>
                 </div>
-                <div className="flex flex-col items-center gap-2">
-                  <div className="text-xs text-gray-500">top view (correct)</div>
-                  <TopViewGrid cells={task.payload.correct_top_view} size={120} />
-                  <div className="text-xs text-accent">answer: {task.correct_answer}</div>
+
+                <div className="flex-1">
+                  <div className="text-xs text-gray-500 mb-2">
+                    Варианты (правильный: {task.correct_answer})
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {task.options.map((opt) => {
+                      const isCorrect = opt.key === task.correct_answer
+                      return (
+                        <div
+                          key={opt.key}
+                          className={`flex flex-col items-center gap-1 rounded-lg p-2 ${
+                            isCorrect
+                              ? "ring-2 ring-green-500 bg-green-500/10"
+                              : "bg-black/20"
+                          }`}
+                        >
+                          <TopViewGrid cells={opt.cells} size={80} />
+                          <span
+                            className={`text-sm font-bold ${
+                              isCorrect ? "text-green-400" : "text-gray-400"
+                            }`}
+                          >
+                            {opt.key}
+                            {isCorrect ? " ✓" : ""}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
               </div>
 
