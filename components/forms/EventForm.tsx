@@ -143,16 +143,16 @@ export function EventForm() {
               <option value="__new__">+ Создать новый зал</option>
             </select>
           ) : (
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2">
               <input
                 name="hallNameNew"
                 required
                 placeholder="Название нового зала"
-                className="min-h-[56px] flex-1 rounded-xl bg-surface px-4 text-lg outline-none ring-1 ring-white/20 focus:ring-accent"
+                className="min-h-[56px] rounded-xl bg-surface px-4 text-lg outline-none ring-1 ring-white/20 focus:ring-accent"
               />
               {halls.length > 0 && (
-                <button type="button" onClick={() => setHallMode("select")} className="text-sm text-accent hover:underline whitespace-nowrap">
-                  Выбрать
+                <button type="button" onClick={() => setHallMode("select")} className="self-start text-sm font-semibold text-accent hover:underline">
+                  ← Выбрать из списка
                 </button>
               )}
             </div>

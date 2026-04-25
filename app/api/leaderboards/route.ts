@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const eventWhere: any = {}
   if (modeParam === "cognitive" || modeParam === "games") {
-    eventWhere.mode = modeParam
+    eventWhere.eventMode = modeParam
   }
 
   const attempts = await prisma.attempt.findMany({
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
     age: computeAge(a.participant.birthDate),
     eventName: a.event.eventName,
     eventDate: a.event.eventDate,
-    eventMode: a.event.mode,
+    eventMode: a.event.eventMode,
     heatNumber: a.participant.heatNumber,
     status: a.status,
     totalTimeSec: a.totalTimeSec,

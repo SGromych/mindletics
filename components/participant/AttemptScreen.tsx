@@ -233,7 +233,7 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
 
         {!error && (
           <div className="mt-4 flex-1">
-            {attempt.event.mode === "games" ? (
+            {attempt.event.eventMode === "games" ? (
               <GameBlock
                 key={attempt.currentStageNo}
                 stationIndex={stationIdx}

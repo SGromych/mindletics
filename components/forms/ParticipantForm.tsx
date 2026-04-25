@@ -59,7 +59,7 @@ export function ParticipantForm() {
 
   return (
     <Card className="w-full max-w-3xl">
-      <h2 className="mb-6 text-2xl font-bold">Реги��трация участника</h2>
+      <h2 className="mb-6 text-2xl font-bold">Регистрация участника</h2>
       {error && <p className="mb-4 rounded-lg bg-red-900/50 p-3 text-red-300">{error}</p>}
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-8 gap-y-5">
         <label className="flex flex-col gap-2">
@@ -105,7 +105,7 @@ export function ParticipantForm() {
         </fieldset>
 
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-semibold text-gray-400">Н��мер дорожки атлета</span>
+          <span className="text-sm font-semibold text-gray-400">Номер дорожки атлета</span>
           <input
             name="bibNumber"
             required
@@ -155,7 +155,7 @@ export function ParticipantForm() {
 
         <div className="col-span-2">
           <Button type="submit" fullWidth disabled={loading}>
-            {loading ? "Регистрация..." : "Зарегистрироватьс��"}
+            {loading ? "Регистрация..." : "Зарегистрироваться"}
           </Button>
         </div>
       </form>

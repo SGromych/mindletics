@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       exercises,
       heatCount: heatCount ? Number(heatCount) : 1,
       penaltySec: penaltySec ? Number(penaltySec) : 15,
-      mode: mode === "games" ? "games" : "cognitive",
+      eventMode: mode === "games" ? "games" : "cognitive",
     },
   })
 
