@@ -19,7 +19,7 @@ interface LiveRow {
 }
 
 interface LiveData {
-  event: { eventName: string; hallName: string; eventDate: string; heatCount: number }
+  event: { eventName: string; hallName: string; eventDate: string; heatCount: number; mode?: string }
   participants: LiveRow[]
 }
 
@@ -56,7 +56,14 @@ export function LiveTable({ eventId }: { eventId: string }) {
     <div className="overflow-x-auto">
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-black">{data.event.eventName}</h1>
-        <p className="text-gray-400">{data.event.hallName}</p>
+        <div className="flex items-center justify-center gap-2">
+          <p className="text-gray-400">{data.event.hallName}</p>
+          {data.event.mode === "games" && (
+            <span className="rounded-full bg-amber-500/20 px-3 py-0.5 text-xs font-bold text-amber-400">
+              Шахматы + Судоку
+            </span>
+          )}
+        </div>
       </div>
 
       {data.event.heatCount > 1 && (

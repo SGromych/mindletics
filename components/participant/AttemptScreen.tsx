@@ -8,6 +8,7 @@ import { Modal } from "@/components/ui/Modal"
 import { StageIndicator } from "./StageIndicator"
 import { buildStages, isCognitiveStage, isLastStage, stageToStationIndex, TOTAL_STAGES } from "@/lib/stages"
 import { CognitiveBlock } from "@/components/tests/CognitiveBlock"
+import { GameBlock } from "@/components/games/GameBlock"
 import { formatTime } from "@/lib/utils"
 import type { Stage } from "@/lib/stages"
 import type { BlockResult } from "@/lib/test-engine"
@@ -24,7 +25,7 @@ interface AttemptData {
   totalWrong: number
   penaltyTimeSec: number
   participant: { firstName: string; lastName: string; bibNumber: string; gender: string; birthDate: string; heatNumber: number }
-  event: { eventName: string; hallName: string; eventDate: string; exercises: string[]; penaltySec: number; heatCount: number }
+  event: { eventName: string; hallName: string; eventDate: string; exercises: string[]; penaltySec: number; heatCount: number; mode?: string }
   stageResults: Array<{
     stageNo: number
     stageType: string
@@ -232,14 +233,25 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
 
         {!error && (
           <div className="mt-4 flex-1">
-            <CognitiveBlock
-              key={attempt.currentStageNo}
-              stationIndex={stationIdx}
-              eventId={attempt.eventId}
-              heatNumber={attempt.participant.heatNumber}
-              penaltySec={attempt.event.penaltySec}
-              onComplete={handleCognitiveComplete}
-            />
+            {attempt.event.mode === "games" ? (
+              <GameBlock
+                key={attempt.currentStageNo}
+                stationIndex={stationIdx}
+                eventId={attempt.eventId}
+                heatNumber={attempt.participant.heatNumber}
+                penaltySec={attempt.event.penaltySec}
+                onComplete={handleCognitiveComplete}
+              />
+            ) : (
+              <CognitiveBlock
+                key={attempt.currentStageNo}
+                stationIndex={stationIdx}
+                eventId={attempt.eventId}
+                heatNumber={attempt.participant.heatNumber}
+                penaltySec={attempt.event.penaltySec}
+                onComplete={handleCognitiveComplete}
+              />
+            )}
           </div>
         )}
         <div className="mt-4">

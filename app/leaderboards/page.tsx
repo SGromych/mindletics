@@ -13,6 +13,7 @@ interface FilterValues {
   gender: string
   ageMin: string
   ageMax: string
+  mode: string
 }
 
 export default function LeaderboardsPage() {
@@ -23,6 +24,7 @@ export default function LeaderboardsPage() {
     gender: "",
     ageMin: "",
     ageMax: "",
+    mode: "",
   })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows, setRows] = useState<any[]>([])
@@ -35,6 +37,7 @@ export default function LeaderboardsPage() {
     if (filters.gender) params.set("gender", filters.gender)
     if (filters.ageMin) params.set("ageMin", filters.ageMin)
     if (filters.ageMax) params.set("ageMax", filters.ageMax)
+    if (filters.mode) params.set("mode", filters.mode)
 
     const res = await fetch(`/api/leaderboards?${params}`)
     if (res.ok) setRows(await res.json())

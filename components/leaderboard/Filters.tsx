@@ -15,6 +15,7 @@ interface FilterValues {
   gender: string
   ageMin: string
   ageMax: string
+  mode: string
 }
 
 interface FiltersProps {
@@ -75,6 +76,25 @@ export function Filters({ value, onChange }: FiltersProps) {
           ))}
         </select>
       )}
+
+      {/* Mode filter */}
+      <div className="flex gap-1 rounded-lg bg-surface-card p-1">
+        {[
+          { val: "", label: "Все" },
+          { val: "cognitive", label: "Тесты" },
+          { val: "games", label: "Шахматы+Судоку" },
+        ].map((m) => (
+          <button
+            key={m.val}
+            onClick={() => onChange({ ...value, mode: m.val })}
+            className={`rounded-md px-3 py-2 text-sm font-bold transition ${
+              value.mode === m.val ? "bg-accent text-black" : "text-gray-400 hover:text-white"
+            }`}
+          >
+            {m.label}
+          </button>
+        ))}
+      </div>
 
       {/* Gender */}
       <div className="flex gap-1 rounded-lg bg-surface-card p-1">

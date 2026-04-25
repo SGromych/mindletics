@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { hallName, eventName, eventDate, exercises, heatCount, penaltySec } = body
+  const { hallName, eventName, eventDate, exercises, heatCount, penaltySec, mode } = body
 
   if (!hallName || !eventName || !eventDate) {
     return NextResponse.json({ error: "hallName, eventName, eventDate are required" }, { status: 400 })
@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
       exercises,
       heatCount: heatCount ? Number(heatCount) : 1,
       penaltySec: penaltySec ? Number(penaltySec) : 15,
+      mode: mode === "games" ? "games" : "cognitive",
     },
   })
 

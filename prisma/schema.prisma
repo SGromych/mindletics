@@ -19,6 +19,11 @@ enum Gender {
   female
 }
 
+enum EventMode {
+  cognitive
+  games
+}
+
 model Event {
   id          String        @id @default(cuid())
   hallName    String
@@ -27,6 +32,7 @@ model Event {
   exercises   String[]
   heatCount   Int           @default(1)
   penaltySec  Int           @default(15)
+  mode        EventMode     @default(cognitive)
   createdAt   DateTime      @default(now())
   participants Participant[]
   attempts    Attempt[]

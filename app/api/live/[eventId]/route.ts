@@ -56,5 +56,5 @@ export async function GET(_req: NextRequest, { params }: { params: { eventId: st
   const sorted = sortForLeaderboard(rows)
   const ranked = sorted.map((row, i) => ({ rank: i + 1, ...row }))
 
-  return NextResponse.json({ event, participants: ranked })
+  return NextResponse.json({ event: { ...event, mode: event.mode }, participants: ranked })
 }

@@ -14,6 +14,7 @@ export function EventForm() {
   const [halls, setHalls] = useState<string[]>([])
   const [hallMode, setHallMode] = useState<"select" | "new">("new")
   const [hallName, setHallName] = useState("")
+  const [eventMode, setEventMode] = useState<"cognitive" | "games">("cognitive")
 
   useEffect(() => {
     fetch("/api/halls")
@@ -49,6 +50,7 @@ export function EventForm() {
         exercises: selectedExercises,
         heatCount: Number(form.get("heatCount")) || 1,
         penaltySec: Number(form.get("penaltySec")) || 15,
+        mode: eventMode,
       }),
     })
 
@@ -80,6 +82,43 @@ export function EventForm() {
     <Card className="w-full max-w-4xl">
       <h2 className="mb-6 text-2xl font-bold">Создать событие</h2>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-8 gap-y-5">
+        {/* Mode selector */}
+        <div className="col-span-2 flex flex-col gap-2 mb-2">
+          <span className="text-sm font-semibold text-gray-400">Режим</span>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setEventMode("cognitive")}
+              className={`flex items-center gap-3 rounded-xl px-5 py-4 text-left font-bold transition ring-1 ${
+                eventMode === "cognitive"
+                  ? "bg-accent/20 ring-2 ring-accent text-white"
+                  : "bg-white/5 ring-white/20 text-gray-400 hover:bg-white/10"
+              }`}
+            >
+              <span className="text-2xl">🧠</span>
+              <div>
+                <div className="text-base">Когнитивные тесты</div>
+                <div className="text-xs font-normal text-gray-500">Логика, память, реакция</div>
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setEventMode("games")}
+              className={`flex items-center gap-3 rounded-xl px-5 py-4 text-left font-bold transition ring-1 ${
+                eventMode === "games"
+                  ? "bg-accent/20 ring-2 ring-accent text-white"
+                  : "bg-white/5 ring-white/20 text-gray-400 hover:bg-white/10"
+              }`}
+            >
+              <span className="text-2xl">♟️</span>
+              <div>
+                <div className="text-base">Шахматы и Судоку</div>
+                <div className="text-xs font-normal text-gray-500">Шахматные задачи + судоку</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
         {/* Hall name */}
         <label className="flex flex-col gap-2">
           <span className="text-sm font-semibold text-gray-400">Зал</span>

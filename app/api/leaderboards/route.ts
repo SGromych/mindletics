@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
   const ageMin = url.searchParams.get("ageMin")
   const ageMax = url.searchParams.get("ageMax")
   const heatParam = url.searchParams.get("heat")
+  const modeParam = url.searchParams.get("mode")
 
   let eventFilter: string | undefined
   if (eventId) {
@@ -42,11 +43,18 @@ export async function GET(req: NextRequest) {
     participantWhere.birthDate = { ...participantWhere.birthDate, lte: maxBirth }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const eventWhere: any = {}
+  if (modeParam === "cognitive" || modeParam === "games") {
+    eventWhere.mode = modeParam
+  }
+
   const attempts = await prisma.attempt.findMany({
     where: {
       status: { in: ["finished", "aborted"] },
       ...(eventFilter && { eventId: eventFilter }),
       participant: Object.keys(participantWhere).length > 0 ? participantWhere : undefined,
+      event: Object.keys(eventWhere).length > 0 ? eventWhere : undefined,
     },
     include: {
       participant: true,
@@ -62,6 +70,7 @@ export async function GET(req: NextRequest) {
     age: computeAge(a.participant.birthDate),
     eventName: a.event.eventName,
     eventDate: a.event.eventDate,
+    eventMode: a.event.mode,
     heatNumber: a.participant.heatNumber,
     status: a.status,
     totalTimeSec: a.totalTimeSec,
