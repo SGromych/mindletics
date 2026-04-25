@@ -25,7 +25,7 @@ interface AttemptData {
   totalWrong: number
   penaltyTimeSec: number
   participant: { firstName: string; lastName: string; bibNumber: string; gender: string; birthDate: string; heatNumber: number }
-  event: { eventName: string; hallName: string; eventDate: string; exercises: string[]; penaltySec: number; heatCount: number; mode?: string }
+  event: { eventName: string; hallName: string; eventDate: string; exercises: string[]; penaltySec: number; heatCount: number; eventMode?: string }
   stageResults: Array<{
     stageNo: number
     stageType: string
