@@ -17,7 +17,7 @@ export default function Home() {
       </div>
 
       <div className="relative z-10 flex flex-col items-center">
-        <h1 className="mb-3 text-6xl font-black tracking-tighter uppercase">MINDLETICS</h1>
+        <Image src="/mindletics_transparent2.png" alt="Mindletics" width={360} height={80} priority className="mb-3" />
 
         {/* Banner slogan */}
         <div className="mb-10 border-l-4 border-accent pl-4 max-w-xl">
@@ -52,12 +52,34 @@ export default function Home() {
           >
             Лидерборды
           </Link>
+          <Link
+            href="/results"
+            className="col-span-2 flex min-h-btn items-center justify-center rounded-xl bg-surface-card px-6 py-5 text-center text-lg font-bold transition hover:bg-surface-light"
+          >
+            Расшифровка результатов
+          </Link>
+          <Link
+            href="/about"
+            className="col-span-2 flex min-h-btn items-center justify-center rounded-xl border border-accent/30 px-6 py-5 text-center text-lg font-bold text-accent transition hover:bg-accent/10"
+          >
+            Информация о Mindletics
+          </Link>
         </div>
 
         <p className="mt-8 text-sm font-semibold uppercase tracking-widest text-white/30">
           Беги. Тягай. Думай. Побеждай.
         </p>
       </div>
+
+      <footer className="relative z-10 mt-auto pt-12 pb-6 text-center text-xs text-white/30">
+        <nav className="mb-3 flex flex-wrap justify-center gap-4">
+          <Link href="/legal/terms" className="hover:text-white/60 transition">Пользовательское соглашение</Link>
+          <Link href="/legal/privacy" className="hover:text-white/60 transition">Политика конфиденциальности</Link>
+          <Link href="/legal/notice" className="hover:text-white/60 transition">Правовая информация</Link>
+          <Link href="/legal/use" className="hover:text-white/60 transition">Условия использования</Link>
+        </nav>
+        <p>&copy; ИП Сидельников Дмитрий, 2026</p>
+      </footer>
     </main>
   )
 }

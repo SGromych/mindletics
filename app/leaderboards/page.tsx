@@ -9,6 +9,7 @@ import { LeaderboardTable } from "@/components/leaderboard/LeaderboardTable"
 interface FilterValues {
   scope: "all" | "last" | "event"
   eventId: string
+  heat: string
   gender: string
   ageMin: string
   ageMax: string
@@ -18,6 +19,7 @@ export default function LeaderboardsPage() {
   const [filters, setFilters] = useState<FilterValues>({
     scope: "all",
     eventId: "",
+    heat: "",
     gender: "",
     ageMin: "",
     ageMax: "",
@@ -29,6 +31,7 @@ export default function LeaderboardsPage() {
     const params = new URLSearchParams()
     if (filters.scope === "last") params.set("scope", "last")
     if (filters.scope === "event" && filters.eventId) params.set("eventId", filters.eventId)
+    if (filters.heat) params.set("heat", filters.heat)
     if (filters.gender) params.set("gender", filters.gender)
     if (filters.ageMin) params.set("ageMin", filters.ageMin)
     if (filters.ageMax) params.set("ageMax", filters.ageMax)

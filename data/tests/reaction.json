@@ -3,7 +3,7 @@
     "schema_version": "1.0",
     "default_prep_time_sec": 3,
     "default_answer_time_sec": 20,
-    "default_penalty_sec": 20,
+    "default_penalty_sec": 15,
     "locale": "ru",
     "notes": "Все тесты рассчитаны на генерацию интерфейса кодом без внешних изображений."
   },
@@ -14,23 +14,23 @@
       "subtype": "target_number_search",
       "difficulty": "medium",
       "prompt_title": "Реакция",
-      "prompt_text": "Найдите целевое число среди вариантов. Часть чисел анимируется.",
-      "render": {
-        "mode": "animated_number_grid",
-        "animation_profile": "blink_some"
-      },
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
       "payload": {
         "target": "7584",
         "options": [
-          { "value": "4052", "effect": "none" },
           { "value": "7584", "effect": "blink" },
+          { "value": "4052", "effect": "none" },
           { "value": "3666", "effect": "spin" },
           { "value": "8694", "effect": "none" },
           { "value": "1704", "effect": "blink" },
           { "value": "6926", "effect": "shake" },
           { "value": "7548", "effect": "move" },
           { "value": "5784", "effect": "none" },
-          { "value": "7854", "effect": "scale_pulse" }
+          { "value": "7854", "effect": "scale_pulse" },
+          { "value": "8574", "effect": "highlight" },
+          { "value": "5748", "effect": "spin" },
+          { "value": "4857", "effect": "none" }
         ]
       },
       "correct_answer": "7584"
@@ -41,23 +41,23 @@
       "subtype": "target_number_search",
       "difficulty": "medium",
       "prompt_title": "Реакция",
-      "prompt_text": "Найдите целевое число среди вариантов. Часть чисел анимируется.",
-      "render": {
-        "mode": "animated_number_grid",
-        "animation_profile": "move_some"
-      },
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
       "payload": {
         "target": "2319",
         "options": [
+          { "value": "2913", "effect": "spin" },
           { "value": "2319", "effect": "move" },
           { "value": "2379", "effect": "none" },
-          { "value": "2913", "effect": "spin" },
           { "value": "2139", "effect": "blink" },
           { "value": "2391", "effect": "none" },
           { "value": "3219", "effect": "shake" },
           { "value": "2931", "effect": "move" },
           { "value": "1329", "effect": "scale_pulse" },
-          { "value": "2193", "effect": "none" }
+          { "value": "2193", "effect": "none" },
+          { "value": "9213", "effect": "highlight" },
+          { "value": "3129", "effect": "blink" },
+          { "value": "1923", "effect": "spin" }
         ]
       },
       "correct_answer": "2319"
@@ -66,28 +66,352 @@
       "id": "reaction_03",
       "category": "reaction",
       "subtype": "target_number_search",
-      "difficulty": "hard",
+      "difficulty": "medium",
       "prompt_title": "Реакция",
-      "prompt_text": "Найдите целевое число среди вариантов. Есть похожие отвлекающие варианты.",
-      "render": {
-        "mode": "animated_number_grid",
-        "animation_profile": "blink_move_mix"
-      },
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
       "payload": {
         "target": "6407",
         "options": [
-          { "value": "6407", "effect": "blink" },
           { "value": "6401", "effect": "spin" },
           { "value": "6047", "effect": "move" },
           { "value": "6470", "effect": "none" },
           { "value": "6704", "effect": "shake" },
+          { "value": "6407", "effect": "blink" },
           { "value": "6409", "effect": "move" },
           { "value": "4607", "effect": "scale_pulse" },
           { "value": "6740", "effect": "none" },
-          { "value": "6074", "effect": "blink" }
+          { "value": "6074", "effect": "blink" },
+          { "value": "7064", "effect": "highlight" },
+          { "value": "4076", "effect": "none" },
+          { "value": "7406", "effect": "shake" }
         ]
       },
       "correct_answer": "6407"
+    },
+    {
+      "id": "reaction_04",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "4831",
+        "options": [
+          { "value": "4813", "effect": "none" },
+          { "value": "4381", "effect": "spin" },
+          { "value": "4831", "effect": "shake" },
+          { "value": "8431", "effect": "blink" },
+          { "value": "3841", "effect": "move" },
+          { "value": "4318", "effect": "none" },
+          { "value": "1348", "effect": "scale_pulse" },
+          { "value": "8143", "effect": "highlight" },
+          { "value": "4183", "effect": "blink" },
+          { "value": "3148", "effect": "none" },
+          { "value": "1834", "effect": "shake" },
+          { "value": "4138", "effect": "move" }
+        ]
+      },
+      "correct_answer": "4831"
+    },
+    {
+      "id": "reaction_05",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "9256",
+        "options": [
+          { "value": "9265", "effect": "blink" },
+          { "value": "9526", "effect": "none" },
+          { "value": "2956", "effect": "spin" },
+          { "value": "9256", "effect": "move" },
+          { "value": "6295", "effect": "shake" },
+          { "value": "9625", "effect": "none" },
+          { "value": "5926", "effect": "scale_pulse" },
+          { "value": "2596", "effect": "highlight" },
+          { "value": "9562", "effect": "blink" },
+          { "value": "6529", "effect": "none" },
+          { "value": "5296", "effect": "move" },
+          { "value": "2659", "effect": "shake" }
+        ]
+      },
+      "correct_answer": "9256"
+    },
+    {
+      "id": "reaction_06",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "3748",
+        "options": [
+          { "value": "3784", "effect": "spin" },
+          { "value": "3478", "effect": "none" },
+          { "value": "7348", "effect": "blink" },
+          { "value": "3748", "effect": "highlight" },
+          { "value": "4738", "effect": "move" },
+          { "value": "8374", "effect": "none" },
+          { "value": "3847", "effect": "shake" },
+          { "value": "7438", "effect": "scale_pulse" },
+          { "value": "4837", "effect": "blink" },
+          { "value": "8743", "effect": "none" },
+          { "value": "3487", "effect": "spin" },
+          { "value": "7834", "effect": "move" }
+        ]
+      },
+      "correct_answer": "3748"
+    },
+    {
+      "id": "reaction_07",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "5092",
+        "options": [
+          { "value": "5029", "effect": "none" },
+          { "value": "5902", "effect": "blink" },
+          { "value": "9052", "effect": "shake" },
+          { "value": "5092", "effect": "spin" },
+          { "value": "2950", "effect": "move" },
+          { "value": "5920", "effect": "none" },
+          { "value": "0592", "effect": "highlight" },
+          { "value": "2509", "effect": "scale_pulse" },
+          { "value": "9205", "effect": "blink" },
+          { "value": "0295", "effect": "none" },
+          { "value": "5209", "effect": "shake" },
+          { "value": "9520", "effect": "move" }
+        ]
+      },
+      "correct_answer": "5092"
+    },
+    {
+      "id": "reaction_08",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "8163",
+        "options": [
+          { "value": "8136", "effect": "blink" },
+          { "value": "8613", "effect": "none" },
+          { "value": "8163", "effect": "move" },
+          { "value": "1863", "effect": "spin" },
+          { "value": "6318", "effect": "shake" },
+          { "value": "8316", "effect": "none" },
+          { "value": "3168", "effect": "scale_pulse" },
+          { "value": "8631", "effect": "highlight" },
+          { "value": "6183", "effect": "blink" },
+          { "value": "1638", "effect": "none" },
+          { "value": "3816", "effect": "move" },
+          { "value": "6831", "effect": "shake" }
+        ]
+      },
+      "correct_answer": "8163"
+    },
+    {
+      "id": "reaction_09",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "1475",
+        "options": [
+          { "value": "1457", "effect": "none" },
+          { "value": "1745", "effect": "spin" },
+          { "value": "4175", "effect": "blink" },
+          { "value": "1475", "effect": "shake" },
+          { "value": "7514", "effect": "move" },
+          { "value": "5147", "effect": "none" },
+          { "value": "4715", "effect": "highlight" },
+          { "value": "7145", "effect": "scale_pulse" },
+          { "value": "5741", "effect": "blink" },
+          { "value": "1547", "effect": "none" },
+          { "value": "4517", "effect": "spin" },
+          { "value": "7451", "effect": "move" }
+        ]
+      },
+      "correct_answer": "1475"
+    },
+    {
+      "id": "reaction_10",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "6824",
+        "options": [
+          { "value": "6842", "effect": "blink" },
+          { "value": "6248", "effect": "none" },
+          { "value": "8624", "effect": "move" },
+          { "value": "6824", "effect": "scale_pulse" },
+          { "value": "2468", "effect": "spin" },
+          { "value": "4826", "effect": "shake" },
+          { "value": "8264", "effect": "none" },
+          { "value": "6284", "effect": "highlight" },
+          { "value": "2684", "effect": "blink" },
+          { "value": "4268", "effect": "none" },
+          { "value": "8642", "effect": "move" },
+          { "value": "2846", "effect": "spin" }
+        ]
+      },
+      "correct_answer": "6824"
+    },
+    {
+      "id": "reaction_11",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "3591",
+        "options": [
+          { "value": "3519", "effect": "none" },
+          { "value": "3951", "effect": "blink" },
+          { "value": "5391", "effect": "shake" },
+          { "value": "3591", "effect": "move" },
+          { "value": "9135", "effect": "spin" },
+          { "value": "1359", "effect": "none" },
+          { "value": "5913", "effect": "scale_pulse" },
+          { "value": "9531", "effect": "highlight" },
+          { "value": "3159", "effect": "blink" },
+          { "value": "1593", "effect": "none" },
+          { "value": "5139", "effect": "shake" },
+          { "value": "9315", "effect": "move" }
+        ]
+      },
+      "correct_answer": "3591"
+    },
+    {
+      "id": "reaction_12",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "7046",
+        "options": [
+          { "value": "7064", "effect": "spin" },
+          { "value": "7406", "effect": "none" },
+          { "value": "7046", "effect": "highlight" },
+          { "value": "4706", "effect": "blink" },
+          { "value": "6470", "effect": "move" },
+          { "value": "0746", "effect": "shake" },
+          { "value": "7640", "effect": "none" },
+          { "value": "6074", "effect": "scale_pulse" },
+          { "value": "4670", "effect": "blink" },
+          { "value": "0467", "effect": "none" },
+          { "value": "6704", "effect": "spin" },
+          { "value": "0647", "effect": "move" }
+        ]
+      },
+      "correct_answer": "7046"
+    },
+    {
+      "id": "reaction_13",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "2958",
+        "options": [
+          { "value": "2985", "effect": "blink" },
+          { "value": "2598", "effect": "none" },
+          { "value": "9258", "effect": "shake" },
+          { "value": "2958", "effect": "spin" },
+          { "value": "5829", "effect": "move" },
+          { "value": "8295", "effect": "none" },
+          { "value": "9528", "effect": "highlight" },
+          { "value": "5298", "effect": "scale_pulse" },
+          { "value": "8952", "effect": "blink" },
+          { "value": "9582", "effect": "none" },
+          { "value": "5892", "effect": "shake" },
+          { "value": "8529", "effect": "move" }
+        ]
+      },
+      "correct_answer": "2958"
+    },
+    {
+      "id": "reaction_14",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "8317",
+        "options": [
+          { "value": "8371", "effect": "none" },
+          { "value": "8137", "effect": "blink" },
+          { "value": "3817", "effect": "spin" },
+          { "value": "8713", "effect": "move" },
+          { "value": "8317", "effect": "scale_pulse" },
+          { "value": "1738", "effect": "shake" },
+          { "value": "7318", "effect": "none" },
+          { "value": "3178", "effect": "highlight" },
+          { "value": "1837", "effect": "blink" },
+          { "value": "7831", "effect": "none" },
+          { "value": "7183", "effect": "spin" },
+          { "value": "3781", "effect": "move" }
+        ]
+      },
+      "correct_answer": "8317"
+    },
+    {
+      "id": "reaction_15",
+      "category": "reaction",
+      "subtype": "target_number_search",
+      "difficulty": "medium",
+      "prompt_title": "Реакция",
+      "prompt_text": "Найдите целевое число среди вариантов.",
+      "render": { "mode": "animated_number_grid", "animation_profile": "mix" },
+      "payload": {
+        "target": "4609",
+        "options": [
+          { "value": "4690", "effect": "blink" },
+          { "value": "4069", "effect": "none" },
+          { "value": "6409", "effect": "shake" },
+          { "value": "4609", "effect": "move" },
+          { "value": "9064", "effect": "spin" },
+          { "value": "0946", "effect": "none" },
+          { "value": "6094", "effect": "scale_pulse" },
+          { "value": "9460", "effect": "highlight" },
+          { "value": "0649", "effect": "blink" },
+          { "value": "6940", "effect": "none" },
+          { "value": "9604", "effect": "shake" },
+          { "value": "0496", "effect": "move" }
+        ]
+      },
+      "correct_answer": "4609"
     }
   ]
 }

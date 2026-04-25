@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { firstName, lastName, birthDate, gender, bibNumber, eventId } = body
+  const { firstName, lastName, birthDate, gender, bibNumber, eventId, heatNumber } = body
 
   if (!firstName || !lastName || !birthDate || !gender || !bibNumber || !eventId) {
     return NextResponse.json(
@@ -23,6 +23,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Event has expired (1 hour limit)" }, { status: 400 })
   }
 
+  const hn = heatNumber ? Number(heatNumber) : 1
+  if (hn < 1 || hn > event.heatCount) {
+    return NextResponse.json({ error: `heatNumber must be between 1 and ${event.heatCount}` }, { status: 400 })
+  }
+
   const participant = await prisma.participant.create({
     data: {
       firstName,
@@ -30,6 +35,7 @@ export async function POST(req: NextRequest) {
       birthDate: new Date(birthDate),
       gender,
       bibNumber,
+      heatNumber: hn,
       eventId,
     },
   })

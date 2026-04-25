@@ -3,7 +3,7 @@
     "schema_version": "1.0",
     "default_prep_time_sec": 3,
     "default_answer_time_sec": 20,
-    "default_penalty_sec": 20,
+    "default_penalty_sec": 15,
     "locale": "ru",
     "notes": "Все тесты рассчитаны на генерацию интерфейса кодом без внешних изображений. Пространственные и визуальные элементы должны рендериться через SVG/CSS/Canvas."
   },
@@ -15,21 +15,9 @@
       "difficulty": "easy",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "КРАСНЫЙ",
-        "ink_color": "blue"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "КРАСНЫЙ", "ink_color": "blue" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "blue"
     },
     {
@@ -39,21 +27,9 @@
       "difficulty": "easy",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "СИНИЙ",
-        "ink_color": "red"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "СИНИЙ", "ink_color": "red" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "red"
     },
     {
@@ -63,21 +39,9 @@
       "difficulty": "easy",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "ЖЁЛТЫЙ",
-        "ink_color": "green"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЖЁЛТЫЙ", "ink_color": "green" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "green"
     },
     {
@@ -87,21 +51,9 @@
       "difficulty": "easy",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "ЗЕЛЁНЫЙ",
-        "ink_color": "yellow"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЗЕЛЁНЫЙ", "ink_color": "yellow" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "yellow"
     },
     {
@@ -111,21 +63,9 @@
       "difficulty": "medium",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "ЧЁРНЫЙ",
-        "ink_color": "purple"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЧЁРНЫЙ", "ink_color": "purple" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "purple"
     },
     {
@@ -135,21 +75,9 @@
       "difficulty": "medium",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "ФИОЛЕТОВЫЙ",
-        "ink_color": "black"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ФИОЛЕТОВЫЙ", "ink_color": "black" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "black"
     },
     {
@@ -159,21 +87,9 @@
       "difficulty": "medium",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "КРАСНЫЙ",
-        "ink_color": "green"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "КРАСНЫЙ", "ink_color": "green" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "green"
     },
     {
@@ -183,21 +99,9 @@
       "difficulty": "medium",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "СИНИЙ",
-        "ink_color": "yellow"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "СИНИЙ", "ink_color": "yellow" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "yellow"
     },
     {
@@ -207,21 +111,9 @@
       "difficulty": "medium",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "ЖЁЛТЫЙ",
-        "ink_color": "black"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЖЁЛТЫЙ", "ink_color": "black" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "black"
     },
     {
@@ -231,21 +123,129 @@
       "difficulty": "medium",
       "prompt_title": "Струп",
       "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
-      "render": {
-        "mode": "color_word_buttons"
-      },
-      "payload": {
-        "word": "ЗЕЛЁНЫЙ",
-        "ink_color": "blue"
-      },
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "black",
-        "purple"
-      ],
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЗЕЛЁНЫЙ", "ink_color": "blue" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "blue"
+    },
+    {
+      "id": "stroop_11",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ФИОЛЕТОВЫЙ", "ink_color": "red" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "red"
+    },
+    {
+      "id": "stroop_12",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "КРАСНЫЙ", "ink_color": "yellow" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "yellow"
+    },
+    {
+      "id": "stroop_13",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЗЕЛЁНЫЙ", "ink_color": "purple" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "purple"
+    },
+    {
+      "id": "stroop_14",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЖЁЛТЫЙ", "ink_color": "blue" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "blue"
+    },
+    {
+      "id": "stroop_15",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЧЁРНЫЙ", "ink_color": "green" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "green"
+    },
+    {
+      "id": "stroop_16",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "СИНИЙ", "ink_color": "black" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "black"
+    },
+    {
+      "id": "stroop_17",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "КРАСНЫЙ", "ink_color": "purple" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "purple"
+    },
+    {
+      "id": "stroop_18",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЗЕЛЁНЫЙ", "ink_color": "red" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "red"
+    },
+    {
+      "id": "stroop_19",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ЖЁЛТЫЙ", "ink_color": "green" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
+      "correct_answer": "green"
+    },
+    {
+      "id": "stroop_20",
+      "category": "stroop",
+      "subtype": "ink_color",
+      "difficulty": "medium",
+      "prompt_title": "Струп",
+      "prompt_text": "Выберите ЦВЕТ шрифта, а не значение слова.",
+      "render": { "mode": "color_word_buttons" },
+      "payload": { "word": "ФИОЛЕТОВЫЙ", "ink_color": "blue" },
+      "options": ["red", "blue", "green", "yellow", "black", "purple"],
       "correct_answer": "blue"
     }
   ]

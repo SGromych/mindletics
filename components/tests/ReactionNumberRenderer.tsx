@@ -21,7 +21,7 @@ const HIGHLIGHT_COLORS = ["#f97316", "#ec4899", "#14b8a6", "#eab308", "#a855f7"]
 
 type Effect = "move" | "highlight" | "spin" | "shake" | "blink" | "scale_pulse" | "none"
 
-const EFFECT_POOL: Effect[] = ["move", "move", "highlight", "highlight", "spin", "shake", "blink", "scale_pulse", "none"]
+const EFFECT_POOL: Effect[] = ["move", "move", "highlight", "highlight", "spin", "shake", "blink", "scale_pulse", "none", "move", "blink", "none"]
 
 export function ReactionNumberRenderer({ task, onAnswer }: Props) {
   const target: string = task.payload.target
@@ -41,7 +41,7 @@ export function ReactionNumberRenderer({ task, onAnswer }: Props) {
     }))
   }, [rawOptions])
 
-  const gridCols = displayOptions.length > 6 ? "grid-cols-3" : "grid-cols-3"
+  const gridCols = displayOptions.length > 9 ? "grid-cols-4" : "grid-cols-3"
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -51,7 +51,7 @@ export function ReactionNumberRenderer({ task, onAnswer }: Props) {
         <span className="text-3xl font-mono font-bold text-accent">Найдите: {target}</span>
       </div>
 
-      <div className={`grid ${gridCols} gap-3 w-full max-w-lg`}>
+      <div className={`grid ${gridCols} gap-3 w-full max-w-xl`}>
         {displayOptions.map((opt) => {
           let animClass = ""
           const style: React.CSSProperties = {}

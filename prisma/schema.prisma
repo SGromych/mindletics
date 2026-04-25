@@ -25,6 +25,8 @@ model Event {
   eventName   String
   eventDate   DateTime
   exercises   String[]
+  heatCount   Int           @default(1)
+  penaltySec  Int           @default(15)
   createdAt   DateTime      @default(now())
   participants Participant[]
   attempts    Attempt[]
@@ -37,6 +39,7 @@ model Participant {
   birthDate   DateTime
   gender      Gender
   bibNumber   String
+  heatNumber  Int       @default(1)
   eventId     String
   event       Event     @relation(fields: [eventId], references: [id])
   attempts    Attempt[]

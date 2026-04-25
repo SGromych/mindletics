@@ -5,11 +5,13 @@ import { useEffect, useState } from "react"
 interface EventItem {
   id: string
   eventName: string
+  heatCount: number
 }
 
 interface FilterValues {
   scope: "all" | "last" | "event"
   eventId: string
+  heat: string
   gender: string
   ageMin: string
   ageMax: string
@@ -27,6 +29,8 @@ export function Filters({ value, onChange }: FiltersProps) {
     fetch("/api/events").then((r) => r.json()).then(setEvents)
   }, [])
 
+  const selectedEvent = events.find((e) => e.id === value.eventId)
+
   return (
     <div className="flex flex-wrap items-end gap-4">
       {/* Scope tabs */}
@@ -34,7 +38,7 @@ export function Filters({ value, onChange }: FiltersProps) {
         {(["all", "last", "event"] as const).map((s) => (
           <button
             key={s}
-            onClick={() => onChange({ ...value, scope: s })}
+            onClick={() => onChange({ ...value, scope: s, heat: "" })}
             className={`rounded-md px-4 py-2 text-sm font-bold transition ${
               value.scope === s ? "bg-accent text-black" : "text-gray-400 hover:text-white"
             }`}
@@ -48,12 +52,26 @@ export function Filters({ value, onChange }: FiltersProps) {
       {value.scope === "event" && (
         <select
           value={value.eventId}
-          onChange={(e) => onChange({ ...value, eventId: e.target.value })}
+          onChange={(e) => onChange({ ...value, eventId: e.target.value, heat: "" })}
           className="rounded-lg bg-surface-card px-3 py-2 text-sm"
         >
           <option value="">Все события</option>
           {events.map((ev) => (
             <option key={ev.id} value={ev.id}>{ev.eventName}</option>
+          ))}
+        </select>
+      )}
+
+      {/* Heat selector */}
+      {value.scope === "event" && selectedEvent && selectedEvent.heatCount > 1 && (
+        <select
+          value={value.heat}
+          onChange={(e) => onChange({ ...value, heat: e.target.value })}
+          className="rounded-lg bg-surface-card px-3 py-2 text-sm"
+        >
+          <option value="">Все заходы</option>
+          {Array.from({ length: selectedEvent.heatCount }, (_, i) => (
+            <option key={i + 1} value={String(i + 1)}>Заход {i + 1}</option>
           ))}
         </select>
       )}

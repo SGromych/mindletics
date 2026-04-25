@@ -23,8 +23,8 @@ interface AttemptData {
   totalCorrect: number
   totalWrong: number
   penaltyTimeSec: number
-  participant: { firstName: string; lastName: string; bibNumber: string; gender: string; birthDate: string }
-  event: { eventName: string; hallName: string; eventDate: string; exercises: string[] }
+  participant: { firstName: string; lastName: string; bibNumber: string; gender: string; birthDate: string; heatNumber: number }
+  event: { eventName: string; hallName: string; eventDate: string; exercises: string[]; penaltySec: number; heatCount: number }
   stageResults: Array<{
     stageNo: number
     stageType: string
@@ -236,6 +236,8 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
               key={attempt.currentStageNo}
               stationIndex={stationIdx}
               eventId={attempt.eventId}
+              heatNumber={attempt.participant.heatNumber}
+              penaltySec={attempt.event.penaltySec}
               onComplete={handleCognitiveComplete}
             />
           </div>

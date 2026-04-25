@@ -66,7 +66,7 @@ export function MemoryGridRenderer({ task, onAnswer }: Props) {
                 key={key}
                 onClick={() => toggleCell(r, c)}
                 disabled={phase === "memorize"}
-                className={`w-14 h-14 rounded-md transition ${
+                className={`w-20 h-20 rounded-md transition ${
                   phase === "memorize"
                     ? isTarget
                       ? "bg-accent"

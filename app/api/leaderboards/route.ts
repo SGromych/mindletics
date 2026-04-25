@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
   const gender = url.searchParams.get("gender") as Gender | null
   const ageMin = url.searchParams.get("ageMin")
   const ageMax = url.searchParams.get("ageMax")
+  const heatParam = url.searchParams.get("heat")
 
   let eventFilter: string | undefined
   if (eventId) {
@@ -26,6 +27,7 @@ export async function GET(req: NextRequest) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const participantWhere: any = {}
   if (gender) participantWhere.gender = gender
+  if (heatParam) participantWhere.heatNumber = Number(heatParam)
 
   // Convert age filters to birthDate range
   const now = new Date()
@@ -60,6 +62,7 @@ export async function GET(req: NextRequest) {
     age: computeAge(a.participant.birthDate),
     eventName: a.event.eventName,
     eventDate: a.event.eventDate,
+    heatNumber: a.participant.heatNumber,
     status: a.status,
     totalTimeSec: a.totalTimeSec,
     penaltyTimeSec: a.penaltyTimeSec,

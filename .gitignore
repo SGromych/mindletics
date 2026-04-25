@@ -7,3 +7,6 @@ next-env.d.ts
 .claude/settings.local.json
 pic/
 pictures/
+
+.vercel
+.env*.local

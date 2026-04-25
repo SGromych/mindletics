@@ -5,6 +5,8 @@ import {
   buildCognitiveBlock,
   checkAnswer,
   computeBlockResult,
+  countMemoryPartialErrors,
+  isMemoryTask,
   ANSWER_TIME_SEC,
   PREP_TIME_SEC,
   STATION_MAX_SEC,
@@ -25,12 +27,16 @@ import { ReactionNumberRenderer } from "./ReactionNumberRenderer"
 interface Props {
   stationIndex: 0 | 1 | 2
   eventId?: string
+  heatNumber?: number
+  penaltySec?: number
   onComplete: (result: BlockResult) => void
 }
 
-export function CognitiveBlock({ stationIndex, eventId, onComplete }: Props) {
+export function CognitiveBlock({ stationIndex, eventId, heatNumber, penaltySec: penaltyProp, onComplete }: Props) {
+  const penalty = penaltyProp ?? PENALTY_SEC
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tasks = useMemo(() => buildCognitiveBlock(stationIndex, eventId), [stationIndex, eventId])
+  const tasks = useMemo(() => buildCognitiveBlock(stationIndex, eventId, heatNumber), [stationIndex, eventId, heatNumber])
   const totalTasks = tasks.length
 
   const [currentTask, setCurrentTask] = useState(0)
@@ -40,17 +46,31 @@ export function CognitiveBlock({ stationIndex, eventId, onComplete }: Props) {
   const [questionTimeLeft, setQuestionTimeLeft] = useState(ANSWER_TIME_SEC)
   const [penaltyTotal, setPenaltyTotal] = useState(0)
   const [countdown, setCountdown] = useState(PREP_TIME_SEC)
+  const [showSummary, setShowSummary] = useState(false)
+  const [summaryData, setSummaryData] = useState<{ correct: number; total: number; penalty: number } | null>(null)
 
   const taskStartRef = useRef(Date.now())
   const answeredRef = useRef(false)
   const completedRef = useRef(false)
+  const resultRef = useRef<BlockResult | null>(null)
 
   const finishBlock = useCallback((finalAnswers: AnswerLogEntry[]) => {
     if (completedRef.current) return
     completedRef.current = true
-    const result = computeBlockResult(finalAnswers, totalTasks)
-    onComplete(result)
-  }, [onComplete, totalTasks])
+    const result = computeBlockResult(finalAnswers, totalTasks, penalty)
+    resultRef.current = result
+    setSummaryData({ correct: result.correctAnswers, total: totalTasks, penalty: result.penaltySec })
+    setShowSummary(true)
+  }, [totalTasks, penalty])
+
+  // Auto-call onComplete after 2s summary display
+  useEffect(() => {
+    if (!showSummary || !resultRef.current) return
+    const timer = setTimeout(() => {
+      onComplete(resultRef.current!)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [showSummary, onComplete])
 
   // Station timer (3 min countdown)
   useEffect(() => {
@@ -125,7 +145,7 @@ export function CognitiveBlock({ stationIndex, eventId, onComplete }: Props) {
       correctOption: task.correct_answer,
     }
 
-    setPenaltyTotal((p) => p + PENALTY_SEC)
+    setPenaltyTotal((p) => p + penalty)
     const newAnswers = [...answers, entry]
     setAnswers(newAnswers)
     advanceOrFinish(newAnswers)
@@ -159,15 +179,37 @@ export function CognitiveBlock({ stationIndex, eventId, onComplete }: Props) {
       correctOption: task.correct_answer,
     }
 
+    // For memory tasks, count partial errors for proportional penalty
+    if (!wasCorrect && isMemoryTask(task.subtype)) {
+      entry.partialErrors = countMemoryPartialErrors(task, selected)
+    }
+
     if (!wasCorrect) {
-      setPenaltyTotal((p) => p + PENALTY_SEC)
+      setPenaltyTotal((p) => p + penalty)
     }
 
     const newAnswers = [...answers, entry]
     setAnswers(newAnswers)
     advanceOrFinish(newAnswers)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTask, answers, tasks])
+  }, [currentTask, answers, tasks, penalty])
+
+  // Summary screen after last test
+  if (showSummary && summaryData) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-12">
+        <p className="text-xl font-bold">Результат станции</p>
+        <p className="text-4xl font-black">
+          {summaryData.correct} / {summaryData.total}
+        </p>
+        {summaryData.penalty > 0 ? (
+          <p className="text-2xl font-bold text-red-400">Штраф: +{summaryData.penalty}с</p>
+        ) : (
+          <p className="text-2xl font-bold text-green-400">Без штрафа!</p>
+        )}
+      </div>
+    )
+  }
 
   if (completedRef.current || stationTimeLeft <= 0) {
     return (
