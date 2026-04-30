@@ -37,6 +37,9 @@ export async function GET(_req: NextRequest, { params }: { params: { eventId: st
         ? Math.floor((Date.now() - new Date(a.startedAt).getTime()) / 1000) + livePenalty
         : a.totalTimeSec
 
+    const liveCorrect = a.stageResults.reduce((sum, sr) => sum + sr.correctAnswers, 0)
+    const liveWrong = a.stageResults.reduce((sum, sr) => sum + sr.wrongAnswers, 0)
+
     return {
       attemptId: a.id,
       displayName: `${a.participant.lastName} ${a.participant.firstName.charAt(0)}.`,
@@ -47,6 +50,8 @@ export async function GET(_req: NextRequest, { params }: { params: { eventId: st
       status: a.status,
       currentStageNo: a.currentStageNo,
       currentStageTitle: stage?.title || "",
+      totalCorrect: a.status === "in_progress" ? liveCorrect : a.totalCorrect,
+      totalWrong: a.status === "in_progress" ? liveWrong : a.totalWrong,
       totalTimeSec: liveTimeSec,
       penaltyTimeSec: a.status === "in_progress" ? livePenalty : a.penaltyTimeSec,
       startedAt: a.startedAt,

@@ -22,7 +22,7 @@ export default function Home() {
         {/* Banner slogan */}
         <div className="mb-10 border-l-4 border-accent pl-4 max-w-xl">
           <p className="text-xl font-bold text-white/90 leading-snug">
-            Первый в мире спорт, где побеждает не только сила,
+            Первый в мире проект, где побеждает не только сила,
             <span className="text-accent"> но и ясность ума.</span>
           </p>
         </div>

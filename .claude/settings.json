@@ -3,13 +3,23 @@
     "PreToolUse": [
       {
         "matcher": "Write|Edit",
-        "command": "echo \"HOOK: Перед изменением файла проверь — не нарушает ли это простоту MVP, планшетный UX и фиксированный сценарий event.\""
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"HOOK: Check MVP simplicity, tablet UX, and fixed event scenario before changing this file.\""
+          }
+        ]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
-        "command": "echo \"HOOK: После изменения — проверь: проект собирается, schema актуальна, UI пригоден для планшета, raw answers сохраняются.\""
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"HOOK: After change — verify: project builds, schema is current, UI is tablet-friendly, raw answers are saved.\""
+          }
+        ]
       }
     ]
   }

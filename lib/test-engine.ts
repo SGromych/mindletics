@@ -244,7 +244,7 @@ export function countMemoryPartialErrors(task: any, selected: unknown): number {
 }
 
 // Proportional memory penalty: 1 wrong = 1x, 2-3 wrong = 2x, 4-5 wrong = 3x
-function memoryPenaltyMultiplier(partialErrors: number): number {
+export function memoryPenaltyMultiplier(partialErrors: number): number {
   if (partialErrors <= 1) return 1
   if (partialErrors <= 3) return 2
   return 3

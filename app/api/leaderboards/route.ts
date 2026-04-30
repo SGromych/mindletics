@@ -73,6 +73,8 @@ export async function GET(req: NextRequest) {
     eventMode: a.event.eventMode,
     heatNumber: a.participant.heatNumber,
     status: a.status,
+    totalCorrect: a.totalCorrect,
+    totalWrong: a.totalWrong,
     totalTimeSec: a.totalTimeSec,
     penaltyTimeSec: a.penaltyTimeSec,
   }))

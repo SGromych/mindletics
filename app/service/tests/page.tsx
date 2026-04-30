@@ -5,6 +5,7 @@ import logicData from "@/data/tests/logic.json"
 import memoryData from "@/data/tests/memory.json"
 import reactionData from "@/data/tests/reaction.json"
 import stroopData from "@/data/tests/stroop.json"
+import spatialData from "@/data/tests/spatial.json"
 import { checkAnswer } from "@/lib/test-engine"
 
 import { NumberSequenceRenderer } from "@/components/tests/NumberSequenceRenderer"
@@ -14,6 +15,7 @@ import { MemoryGridRenderer } from "@/components/tests/MemoryGridRenderer"
 import { SymbolSequenceRenderer } from "@/components/tests/SymbolSequenceRenderer"
 import { ObjectRecognitionRenderer } from "@/components/tests/ObjectRecognitionRenderer"
 import { ReactionNumberRenderer } from "@/components/tests/ReactionNumberRenderer"
+import { SpatialRenderer } from "@/components/tests/SpatialRenderer"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TestItem = any
@@ -28,6 +30,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   memory: "Memory",
   reaction: "Reaction",
   stroop: "Stroop",
+  spatial: "Spatial",
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -35,6 +38,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   memory: "bg-purple-500/20 text-purple-400 border-purple-500/30",
   reaction: "bg-orange-500/20 text-orange-400 border-orange-500/30",
   stroop: "bg-red-500/20 text-red-400 border-red-500/30",
+  spatial: "bg-teal-500/20 text-teal-400 border-teal-500/30",
 }
 
 const SIDEBAR_CAT_COLORS: Record<string, string> = {
@@ -42,6 +46,7 @@ const SIDEBAR_CAT_COLORS: Record<string, string> = {
   memory: "border-l-purple-500",
   reaction: "border-l-orange-500",
   stroop: "border-l-red-500",
+  spatial: "border-l-teal-500",
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,6 +58,7 @@ const MODE_COMPONENTS: Record<string, React.ComponentType<{ task: any; onAnswer:
   sequence_recall: SymbolSequenceRenderer,
   multi_select_symbols: ObjectRecognitionRenderer,
   animated_number_grid: ReactionNumberRenderer,
+  spatial_top_view: SpatialRenderer,
 }
 
 function buildAllTests(): TestItem[] {
@@ -61,6 +67,7 @@ function buildAllTests(): TestItem[] {
     (memoryData as { items: TestItem[] }).items,
     (reactionData as { items: TestItem[] }).items,
     (stroopData as { items: TestItem[] }).items,
+    (spatialData as { items: TestItem[] }).items,
   ]
   return sources.flat()
 }
@@ -90,7 +97,7 @@ export default function ServiceTestsPage() {
   const allTests = useMemo(() => buildAllTests(), [])
   const grouped = useMemo(() => groupByCategory(allTests), [allTests])
   const categories = useMemo(
-    () => ["logic", "memory", "reaction", "stroop"].filter((c) => grouped[c]),
+    () => ["logic", "memory", "reaction", "stroop", "spatial"].filter((c) => grouped[c]),
     [grouped]
   )
 

@@ -22,6 +22,9 @@ enum Gender {
 enum EventMode {
   cognitive
   games
+  chess
+  sudoku
+  chess_sudoku
 }
 
 model Event {
@@ -32,8 +35,9 @@ model Event {
   exercises   String[]
   heatCount   Int           @default(1)
   penaltySec  Int           @default(15)
-  eventMode   EventMode     @default(cognitive)
-  createdAt   DateTime      @default(now())
+  eventMode      EventMode     @default(cognitive)
+  gameTaskCount  Int           @default(4)
+  createdAt      DateTime      @default(now())
   participants Participant[]
   attempts    Attempt[]
 }

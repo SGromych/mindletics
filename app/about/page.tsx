@@ -13,7 +13,7 @@ export default function AboutPage() {
         <div className="relative z-10 max-w-3xl text-center">
           <Image src="/mindletics_transparent2.png" alt="Mindletics" width={320} height={72} className="mx-auto mb-6" priority />
           <h1 className="text-3xl md:text-4xl font-extrabold leading-tight mb-4">
-            Первый в мире спорт, где побеждает<br />
+            Первый в мире проект, где побеждает<br />
             не только <span className="text-accent">сила</span>, но и <span className="text-accent">ясность ума</span>
           </h1>
           <p className="text-lg text-white/70 max-w-2xl mx-auto">
@@ -37,7 +37,7 @@ export default function AboutPage() {
               Тело и мозг работают одновременно. Физика и когнитика интегрированы в единый поток.
             </p>
             <p className="text-white/60 italic border-l-4 border-accent pl-4">
-              Реальный спорт + реальный интеллект: никаких симуляторов, только проверка себя.
+              Реальная нагрузка + реальный интеллект: никаких симуляторов, только проверка себя.
             </p>
           </div>
           <div className="relative h-80 rounded-2xl overflow-hidden">
@@ -121,8 +121,8 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
               <p className="text-white/80 leading-relaxed mb-4">
-                Участник испытывает уникальное состояние, когда мозг «отказывает» из-за усталости,
-                а потом снова включается. Адреналин + интеллектуальный вызов = неповторимый драйв.
+                Адреналин физической нагрузки сталкивается с интеллектуальным вызовом.
+                Мозг вынужден работать на пределе — и именно в этот момент ты узнаёшь о себе больше всего.
               </p>
               <p className="text-white/80 leading-relaxed mb-4">
                 В жизни часто нужно принимать решения в состоянии стресса и усталости.
@@ -134,7 +134,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="relative h-80 rounded-2xl overflow-hidden">
-              <Image src="/images/jump-rope.jpg" alt="Драйв" fill className="object-cover" />
+              <Image src="/images/dumbbell-snatch.jpg" alt="Тренировка и вызов" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-surface/80 to-transparent" />
             </div>
           </div>
@@ -161,7 +161,7 @@ export default function AboutPage() {
             <h3 className="text-lg font-bold mb-2">Философия</h3>
             <p className="text-white/60 text-sm italic">
               «Мы верим: настоящий атлет — это не только мышцы, но и острый ум.
-              Mindletics возвращает спорт к его истинной цели — гармоничному развитию человека.»
+              Mindletics возвращает тренировки к их истинной цели — гармоничному развитию человека.»
             </p>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function AboutPage() {
             <div className="rounded-2xl bg-surface p-6 border border-white/5">
               <h3 className="text-accent font-bold mb-2">Офисные работники, IT-специалисты</h3>
               <p className="text-white/60 text-sm">
-                Твой мозг работает 24/7. Дай ему новую нагрузку — в условиях реального спорта.
+                Твой мозг работает 24/7. Дай ему новую нагрузку — в условиях реальной физической нагрузки.
                 Улучшишь когнитивную выносливость, которая пригодится и в работе.
               </p>
             </div>
@@ -196,7 +196,7 @@ export default function AboutPage() {
             <div className="rounded-2xl bg-surface p-6 border border-white/5">
               <h3 className="text-accent font-bold mb-2">Амбициозные атлеты (Pro)</h3>
               <p className="text-white/60 text-sm">
-                Стань первым в новом виде спорта. Mindletics — это шанс войти в историю,
+                Стань первым в новом формате. Mindletics — это шанс войти в историю,
                 пока другие только думают.
               </p>
             </div>
@@ -235,7 +235,7 @@ export default function AboutPage() {
             <div className="shrink-0">
               <div className="relative w-64 h-72 rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/sid_transp.png"
+                  src="/images/chess-event.jpg"
                   alt="Дмитрий Сидельников"
                   fill
                   className="object-cover object-top"

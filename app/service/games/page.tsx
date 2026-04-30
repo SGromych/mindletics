@@ -29,6 +29,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 const MODE_COMPONENTS: Record<string, React.ComponentType<{ task: any; onAnswer: (v: any) => void }>> = {
   chess_board: ChessBoardRenderer,
   sudoku_grid: SudokuGridRenderer,
+  sudoku_6x6_grid: SudokuGridRenderer,
 }
 
 function buildAllGames(): TestItem[] {

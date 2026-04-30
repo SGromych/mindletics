@@ -6,6 +6,7 @@ import {
   GAME_ANSWER_TIME_SEC,
   GAME_PREP_TIME_SEC,
   GAME_STATION_MAX_SEC,
+  type GameMode,
 } from "@/lib/game-engine"
 import {
   checkAnswer,
@@ -23,14 +24,16 @@ interface Props {
   eventId?: string
   heatNumber?: number
   penaltySec?: number
+  gameMode?: GameMode
+  taskCount?: number
   onComplete: (result: BlockResult) => void
 }
 
-export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penaltyProp, onComplete }: Props) {
+export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penaltyProp, gameMode = "chess_sudoku", taskCount = 4, onComplete }: Props) {
   const penalty = penaltyProp ?? PENALTY_SEC
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tasks = useMemo(() => buildGameBlock(stationIndex, eventId, heatNumber), [stationIndex, eventId, heatNumber])
+  const tasks = useMemo(() => buildGameBlock(stationIndex, eventId, heatNumber, gameMode, taskCount), [stationIndex, eventId, heatNumber, gameMode, taskCount])
   const totalTasks = tasks.length
 
   const [currentTask, setCurrentTask] = useState(0)
@@ -42,6 +45,7 @@ export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penal
   const [countdown, setCountdown] = useState(GAME_PREP_TIME_SEC)
   const [showSummary, setShowSummary] = useState(false)
   const [summaryData, setSummaryData] = useState<{ correct: number; total: number; penalty: number } | null>(null)
+  const [flashPenalty, setFlashPenalty] = useState<number | null>(null)
 
   const taskStartRef = useRef(Date.now())
   const answeredRef = useRef(false)
@@ -57,8 +61,13 @@ export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penal
     setShowSummary(true)
   }, [totalTasks, penalty])
 
+  // Guard against calling onComplete more than once
+  const calledOnCompleteRef = useRef(false)
+
   useEffect(() => {
     if (!showSummary || !resultRef.current) return
+    if (calledOnCompleteRef.current) return
+    calledOnCompleteRef.current = true
     const timer = setTimeout(() => {
       onComplete(resultRef.current!)
     }, 2000)
@@ -130,6 +139,8 @@ export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penal
     }
 
     setPenaltyTotal((p) => p + penalty)
+    setFlashPenalty(penalty)
+    setTimeout(() => setFlashPenalty(null), 1500)
     const newAnswers = [...answers, entry]
     setAnswers(newAnswers)
     advanceOrFinish(newAnswers)
@@ -151,7 +162,10 @@ export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penal
 
     const task = tasks[currentTask]
     const responseTimeMs = Date.now() - taskStartRef.current
-    const wasCorrect = checkAnswer(task, selected)
+    // For 6x6 sudoku, the renderer sends "correct" or "wrong" directly
+    const wasCorrect = task.correct_answer === "grid_match"
+      ? selected === "correct"
+      : checkAnswer(task, selected)
 
     const entry: AnswerLogEntry = {
       taskIndex: currentTask,
@@ -165,6 +179,8 @@ export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penal
 
     if (!wasCorrect) {
       setPenaltyTotal((p) => p + penalty)
+      setFlashPenalty(penalty)
+      setTimeout(() => setFlashPenalty(null), 1500)
     }
 
     const newAnswers = [...answers, entry]
@@ -222,7 +238,14 @@ export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penal
   const renderMode = task.render?.mode
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="relative flex flex-col gap-4">
+      {flashPenalty !== null && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <span className="text-5xl font-black text-red-500 animate-pulse drop-shadow-lg">
+            +{flashPenalty}с
+          </span>
+        </div>
+      )}
       <div className="flex items-center justify-between text-sm">
         <span className="text-gray-400">
           {currentTask + 1} / {totalTasks} — {task.prompt_title}
@@ -244,6 +267,9 @@ export function GameBlock({ stationIndex, eventId, heatNumber, penaltySec: penal
         )}
         {renderMode === "sudoku_grid" && (
           <SudokuGridRenderer task={task} onAnswer={handleAnswer} />
+        )}
+        {renderMode === "sudoku_6x6_grid" && (
+          <SudokuGridRenderer task={task} onAnswer={handleAnswer} mode6x6 />
         )}
       </div>
     </div>

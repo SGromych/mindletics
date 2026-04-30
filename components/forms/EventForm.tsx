@@ -14,7 +14,8 @@ export function EventForm() {
   const [halls, setHalls] = useState<string[]>([])
   const [hallMode, setHallMode] = useState<"select" | "new">("new")
   const [hallName, setHallName] = useState("")
-  const [eventMode, setEventMode] = useState<"cognitive" | "games">("cognitive")
+  const [eventMode, setEventMode] = useState<"cognitive" | "chess" | "sudoku" | "chess_sudoku">("cognitive")
+  const [gameTaskCount, setGameTaskCount] = useState(4)
 
   useEffect(() => {
     fetch("/api/halls")
@@ -51,6 +52,7 @@ export function EventForm() {
         heatCount: Number(form.get("heatCount")) || 1,
         penaltySec: Number(form.get("penaltySec")) || 15,
         mode: eventMode,
+        gameTaskCount: eventMode !== "cognitive" ? gameTaskCount : undefined,
       }),
     })
 
@@ -86,37 +88,43 @@ export function EventForm() {
         <div className="col-span-2 flex flex-col gap-2 mb-2">
           <span className="text-sm font-semibold text-gray-400">Режим</span>
           <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => setEventMode("cognitive")}
-              className={`flex items-center gap-3 rounded-xl px-5 py-4 text-left font-bold transition ring-1 ${
-                eventMode === "cognitive"
-                  ? "bg-accent/20 ring-2 ring-accent text-white"
-                  : "bg-white/5 ring-white/20 text-gray-400 hover:bg-white/10"
-              }`}
-            >
-              <span className="text-2xl">🧠</span>
-              <div>
-                <div className="text-base">Когнитивные тесты</div>
-                <div className="text-xs font-normal text-gray-500">Логика, память, реакция</div>
-              </div>
-            </button>
-            <button
-              type="button"
-              onClick={() => setEventMode("games")}
-              className={`flex items-center gap-3 rounded-xl px-5 py-4 text-left font-bold transition ring-1 ${
-                eventMode === "games"
-                  ? "bg-accent/20 ring-2 ring-accent text-white"
-                  : "bg-white/5 ring-white/20 text-gray-400 hover:bg-white/10"
-              }`}
-            >
-              <span className="text-2xl">♟️</span>
-              <div>
-                <div className="text-base">Шахматы и Судоку</div>
-                <div className="text-xs font-normal text-gray-500">Шахматные задачи + судоку</div>
-              </div>
-            </button>
+            {([
+              { key: "cognitive" as const, icon: "🧠", label: "Когнитивные тесты", desc: "Логика, память, реакция" },
+              { key: "chess" as const, icon: "♔", label: "Шахматы", desc: "Только шахматные задачи" },
+              { key: "sudoku" as const, icon: "🔢", label: "Судоку", desc: "Только задачи судоку" },
+              { key: "chess_sudoku" as const, icon: "♟️", label: "Шахматы + Судоку", desc: "Шахматные задачи и судоку" },
+            ]).map((m) => (
+              <button
+                key={m.key}
+                type="button"
+                onClick={() => setEventMode(m.key)}
+                className={`flex items-center gap-3 rounded-xl px-5 py-4 text-left font-bold transition ring-1 ${
+                  eventMode === m.key
+                    ? "bg-accent/20 ring-2 ring-accent text-white"
+                    : "bg-white/5 ring-white/20 text-gray-400 hover:bg-white/10"
+                }`}
+              >
+                <span className="text-2xl">{m.icon}</span>
+                <div>
+                  <div className="text-base">{m.label}</div>
+                  <div className="text-xs font-normal text-gray-500">{m.desc}</div>
+                </div>
+              </button>
+            ))}
           </div>
+          {eventMode !== "cognitive" && (
+            <label className="flex items-center gap-3 mt-2">
+              <span className="text-sm font-semibold text-gray-400">Заданий на станцию:</span>
+              <input
+                type="number"
+                min={2}
+                max={8}
+                value={gameTaskCount}
+                onChange={(e) => setGameTaskCount(Math.max(2, Math.min(8, Number(e.target.value) || 4)))}
+                className="w-20 min-h-[44px] rounded-xl bg-surface px-3 text-lg text-center outline-none ring-1 ring-white/20 focus:ring-accent"
+              />
+            </label>
+          )}
         </div>
 
         {/* Hall name */}

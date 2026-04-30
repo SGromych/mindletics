@@ -6,16 +6,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "easy",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
         "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
-        "orientation": "white",
-        "hint": "Атака на f7"
+        "orientation": "white"
       },
-      "options": ["Qxf7#", "Nf3", "d3", "Bc5"],
+      "options": ["Qxf7#", "Nf3", "d3", "Nc3"],
       "correct_answer": "Qxf7#",
-      "explanation": "Детский мат: ферзь берёт на f7 с шахом и матом"
+      "explanation": "Детский мат: ферзь бьёт на f7, d8 занят ферзём, f8 слоном, e7 под атакой"
     },
     {
       "id": "chess_e2",
@@ -23,7 +22,7 @@
       "subtype": "chess_puzzle",
       "difficulty": "easy",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
         "fen": "6k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1",
@@ -31,7 +30,7 @@
       },
       "options": ["Re8#", "Re7", "Re2", "Kf1"],
       "correct_answer": "Re8#",
-      "explanation": "Мат по последней горизонтали"
+      "explanation": "Мат по последней горизонтали — пешки f7/g7/h7 запирают короля"
     },
     {
       "id": "chess_e3",
@@ -39,15 +38,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "easy",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r1bqkbnr/pppppppp/2n5/8/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+        "fen": "rnbqkbnr/pppp1ppp/8/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 3",
         "orientation": "white"
       },
-      "options": ["Bb5", "d4", "Bc4", "Nc3"],
-      "correct_answer": "Bb5",
-      "explanation": "Испанская партия: слон выходит на b5, атакуя коня"
+      "options": ["Qxf7#", "Nc3", "d3", "Nf3"],
+      "correct_answer": "Qxf7#",
+      "explanation": "Ферзь бьёт f7 — мат, король заперт на e8"
     },
     {
       "id": "chess_e4",
@@ -55,15 +54,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "easy",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "rnbqkbnr/pppp1ppp/8/4p3/4PP2/8/PPPP2PP/RNBQKBNR b KQkq f3 0 2",
-        "orientation": "black"
+        "fen": "6k1/5ppp/8/8/8/8/1Q3PPP/6K1 w - - 0 1",
+        "orientation": "white"
       },
-      "options": ["exf4", "d6", "Nc6", "Nf6"],
-      "correct_answer": "exf4",
-      "explanation": "Принятый Королевский гамбит: чёрные забирают пешку"
+      "options": ["Qb8#", "Qb7", "Qe5", "Qc2"],
+      "correct_answer": "Qb8#",
+      "explanation": "Ферзь на b8 — мат по 8-й горизонтали, пешки запирают короля"
     },
     {
       "id": "chess_e5",
@@ -71,15 +70,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "easy",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r2qk2r/ppp2ppp/2n1bn2/3pp1B1/2BPP1b1/2N2N2/PPP2PPP/R2QK2R w KQkq - 4 6",
+        "fen": "6rk/6pp/7N/8/8/8/8/6K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Bxf6", "dxe5", "0-0", "a3"],
-      "correct_answer": "Bxf6",
-      "explanation": "Размен слона на коня разрушает пешечную структуру"
+      "options": ["Nf7#", "Ng4", "Nf5", "Ng8"],
+      "correct_answer": "Nf7#",
+      "explanation": "Спёртый мат: конь f7 атакует h8, ладья g8 и пешки g7/h7 запирают короля"
     },
     {
       "id": "chess_e6",
@@ -87,15 +86,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "easy",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "rnb1kbnr/ppppqppp/8/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 2 3",
+        "fen": "6k1/R7/6K1/8/8/8/8/8 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Qxf7#", "Nc3", "d3", "Nf3"],
-      "correct_answer": "Qxf7#",
-      "explanation": "Мат ферзём на f7 — король не может уйти"
+      "options": ["Ra8#", "Ra1", "Rb7", "Kf6"],
+      "correct_answer": "Ra8#",
+      "explanation": "Ладья на a8 даёт мат, белый король контролирует f7/g7/h7"
     },
     {
       "id": "chess_m1",
@@ -103,15 +102,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "medium",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 5 5",
+        "fen": "1k6/8/1K1R4/8/8/8/8/8 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["d4", "c3", "Nc3", "b4"],
-      "correct_answer": "d4",
-      "explanation": "Захват центра с темпом — атака на слона и пешку e5"
+      "options": ["Rd8#", "Rd7", "Rd1", "Rc6"],
+      "correct_answer": "Rd8#",
+      "explanation": "Ладья на d8, белый король контролирует a7/b7/c7, ладья — a8/c8"
     },
     {
       "id": "chess_m2",
@@ -119,15 +118,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "medium",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r1b1k2r/ppppqppp/2n2n2/2b1p3/2BPP3/2N2N2/PPP2PPP/R1BQ1RK1 b kq d3 0 6",
-        "orientation": "black"
+        "fen": "r5k1/5ppp/8/8/8/8/Q4PPP/6K1 w - - 0 1",
+        "orientation": "white"
       },
-      "options": ["exd4", "d6", "0-0", "Bb6"],
-      "correct_answer": "exd4",
-      "explanation": "Забрать пешку, открывая линию для фигур"
+      "options": ["Qa8#", "Qe6", "Qd5", "Qa7"],
+      "correct_answer": "Qa8#",
+      "explanation": "Ферзь берёт ладью на a8 — мат по 8-й горизонтали"
     },
     {
       "id": "chess_m3",
@@ -135,15 +134,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "medium",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r2qr1k1/ppp2ppp/2n2n2/3p4/3P1Bb1/2NQPN2/PPP2PPP/R3K2R w KQ - 4 9",
+        "fen": "5k2/5ppp/5P2/8/8/8/6PP/3Q2K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Qb5", "0-0-0", "h3", "Ne5"],
-      "correct_answer": "Qb5",
-      "explanation": "Вилка: ферзь атакует коня c6 и пешку b7"
+      "options": ["Qd8#", "Qd7", "Qe2", "Qa4"],
+      "correct_answer": "Qd8#",
+      "explanation": "Ферзь на d8, пешка f6 контролирует e7, пешки запирают короля"
     },
     {
       "id": "chess_m4",
@@ -151,15 +150,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "medium",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r1bq1rk1/ppp2ppp/2n1pn2/3p4/1bPP4/2N1PN2/PP3PPP/R1BQKB1R w KQ - 2 6",
+        "fen": "6k1/5ppp/8/8/8/8/5PPP/2Q3K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Bd3", "a3", "Bd2", "Qc2"],
-      "correct_answer": "Bd3",
-      "explanation": "Развитие слона на активную позицию с контролем центра"
+      "options": ["Qc8#", "Qc7", "Qe3", "Qa3"],
+      "correct_answer": "Qc8#",
+      "explanation": "Ферзь на c8 — мат по 8-й горизонтали, пешки запирают короля"
     },
     {
       "id": "chess_m5",
@@ -167,15 +166,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "medium",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "2kr3r/ppp1qppp/2n1bn2/3p4/3P1B2/2NBPN2/PPP2PPP/R2QK2R b KQ - 5 8",
-        "orientation": "black"
+        "fen": "4r1k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1",
+        "orientation": "white"
       },
-      "options": ["Ng4", "Nh5", "Ne4", "g5"],
-      "correct_answer": "Ne4",
-      "explanation": "Конь на e4 занимает мощный форпост в центре"
+      "options": ["Rxe8#", "Re7", "Re2", "Kf1"],
+      "correct_answer": "Rxe8#",
+      "explanation": "Ладья бьёт ладью на e8 — мат по 8-й горизонтали"
     },
     {
       "id": "chess_m6",
@@ -183,15 +182,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "medium",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 0 5",
+        "fen": "6k1/R4ppp/8/8/8/8/5PPP/6K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Ba2", "Re1", "Bxc6", "c3"],
-      "correct_answer": "Re1",
-      "explanation": "Ладья на e1 давит по полуоткрытой линии на пешку e5"
+      "options": ["Ra8#", "Rb7", "Ra1", "Rc7"],
+      "correct_answer": "Ra8#",
+      "explanation": "Ладья с a7 на a8 — мат по последней горизонтали"
     },
     {
       "id": "chess_h1",
@@ -199,15 +198,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "hard",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r1b1kb1r/pppp1ppp/5n2/4N1q1/2B1P3/8/PPPP1PPP/RNBQK2R w KQkq - 0 5",
+        "fen": "2b3k1/r4ppp/2p5/8/8/1P6/1B3PPP/4R1K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Nxf7", "Bxf7+", "d4", "0-0"],
-      "correct_answer": "Bxf7+",
-      "explanation": "Жертва слона с шахом — вскрывает короля"
+      "options": ["Re8#", "Re7", "Bc3", "Bd4"],
+      "correct_answer": "Re8#",
+      "explanation": "Мат по 8-й — слон c8 не может заблокировать, ладья a7 не успевает"
     },
     {
       "id": "chess_h2",
@@ -215,15 +214,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "hard",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r2q1rk1/pp2ppbp/2np1np1/8/2BNP1b1/2N1BP2/PPPQ2PP/R3K2R w KQ - 0 10",
+        "fen": "6k1/3R1ppp/8/8/8/8/5PPP/6K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Nd5", "f4", "h3", "0-0-0"],
-      "correct_answer": "Nd5",
-      "explanation": "Конь на d5 — мощная централизация с угрозами"
+      "options": ["Rd8#", "Rd1", "Re7", "Rc7"],
+      "correct_answer": "Rd8#",
+      "explanation": "Ладья с d7 на d8 — мат по последней горизонтали"
     },
     {
       "id": "chess_h3",
@@ -231,15 +230,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "hard",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "2rq1rk1/pp1bppbp/2np1np1/8/2BNP3/2N1BP2/PPPQ2PP/R3K2R w KQ - 2 11",
+        "fen": "6k1/5p1p/5PpQ/8/8/8/5PPP/6K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["0-0-0", "h4", "g4", "Bh6"],
-      "correct_answer": "Bh6",
-      "explanation": "Размен чернопольного слона ослабляет королевский фланг"
+      "options": ["Qg7#", "Qxh7", "Qe3", "Qf4"],
+      "correct_answer": "Qg7#",
+      "explanation": "Ферзь на g7, пешка f6 блокирует f7, пешки и ферзь запирают короля"
     },
     {
       "id": "chess_h4",
@@ -247,15 +246,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "hard",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r4rk1/1bq1bppp/ppnppn2/8/2P1P3/1PN1BN2/PB1Q1PPP/R3R1K1 w - - 0 13",
+        "fen": "6k1/5ppp/8/4Q3/8/8/5PPP/6K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Nd5", "d4", "f4", "a4"],
-      "correct_answer": "Nd5",
-      "explanation": "Конь на d5 — неуязвимый форпост, доминирует над позицией"
+      "options": ["Qe8#", "Qd5", "Qf6", "Qg3"],
+      "correct_answer": "Qe8#",
+      "explanation": "Ферзь с e5 на e8 — мат по 8-й горизонтали"
     },
     {
       "id": "chess_h5",
@@ -263,15 +262,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "hard",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r1bq1rk1/pp3ppp/2n1pn2/2ppP3/3P4/2PB1N2/PP3PPP/RNBQ1RK1 w - - 0 8",
+        "fen": "1n4k1/5ppp/8/8/8/8/1Q3PPP/6K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Bxh7+", "Bg5", "Nbd2", "Re1"],
-      "correct_answer": "Bxh7+",
-      "explanation": "Классическая жертва слона на h7 — вскрытие короля"
+      "options": ["Qxb8#", "Qb7", "Qe5", "Qd4"],
+      "correct_answer": "Qxb8#",
+      "explanation": "Ферзь бьёт коня на b8 — мат по 8-й, конь не может защитить"
     },
     {
       "id": "chess_h6",
@@ -279,15 +278,15 @@
       "subtype": "chess_puzzle",
       "difficulty": "hard",
       "prompt_title": "Шахматы",
-      "prompt_text": "Найдите лучший ход",
+      "prompt_text": "Найди мат в 1 ход",
       "render": { "mode": "chess_board" },
       "payload": {
-        "fen": "r2qr1k1/pppb1ppp/2n5/3np3/2B5/5N2/PPPPQPPP/RNB2RK1 w - - 0 9",
+        "fen": "4r1k1/r4ppp/2n5/8/8/8/5PPP/4R1K1 w - - 0 1",
         "orientation": "white"
       },
-      "options": ["Nxe5", "Bxd5", "d4", "Rd1"],
-      "correct_answer": "Nxe5",
-      "explanation": "Конь забирает пешку с темпом — вилка на коня и слона"
+      "options": ["Rxe8#", "Re7", "Re2", "Kf1"],
+      "correct_answer": "Rxe8#",
+      "explanation": "Ладья бьёт e8, мат — конь c6 и ладья a7 не могут заблокировать f8"
     }
   ]
 }

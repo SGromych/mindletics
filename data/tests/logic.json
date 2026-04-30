@@ -552,6 +552,176 @@
       "options": ["16", "20", "24", "25", "27", "30"],
       "correct_answer": "25",
       "explanation": "Квадраты по убыванию: 10², 9², 8², 7², 6², далее 5² = 25."
+    },
+    {
+      "id": "logic_21",
+      "category": "logic",
+      "subtype": "matrix_rule",
+      "difficulty": "medium",
+      "prompt_title": "Логика",
+      "prompt_text": "Выберите недостающий элемент матрицы.",
+      "render": { "mode": "svg_matrix_options" },
+      "payload": {
+        "grid_size": [3, 3],
+        "cells": [
+          { "row": 1, "col": 1, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "small" },
+          { "row": 1, "col": 2, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "medium" },
+          { "row": 1, "col": 3, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "large" },
+          { "row": 2, "col": 1, "shape": "square", "rotation_deg": 0, "fill": "none", "count": 1, "size": "small" },
+          { "row": 2, "col": 2, "shape": "square", "rotation_deg": 0, "fill": "none", "count": 1, "size": "medium" },
+          { "row": 2, "col": 3, "shape": "square", "rotation_deg": 0, "fill": "none", "count": 1, "size": "large" },
+          { "row": 3, "col": 1, "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "small" },
+          { "row": 3, "col": 2, "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "medium" },
+          { "row": 3, "col": 3, "missing": true }
+        ],
+        "rule": "Форма определяется строкой, размер увеличивается по столбцу."
+      },
+      "options": [
+        { "key": "A", "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "large" },
+        { "key": "B", "shape": "triangle", "rotation_deg": 0, "fill": "solid", "count": 1, "size": "large" },
+        { "key": "C", "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "large" },
+        { "key": "D", "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "medium" },
+        { "key": "E", "shape": "square", "rotation_deg": 0, "fill": "none", "count": 1, "size": "large" },
+        { "key": "F", "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1, "size": "small" }
+      ],
+      "correct_answer": "A",
+      "explanation": "Строка 3 — треугольник, столбец 3 — large."
+    },
+    {
+      "id": "logic_22",
+      "category": "logic",
+      "subtype": "matrix_rule",
+      "difficulty": "medium",
+      "prompt_title": "Логика",
+      "prompt_text": "Выберите недостающий элемент матрицы.",
+      "render": { "mode": "svg_matrix_options" },
+      "payload": {
+        "grid_size": [3, 3],
+        "cells": [
+          { "row": 1, "col": 1, "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 1, "col": 2, "shape": "triangle", "rotation_deg": 90, "fill": "none", "count": 1 },
+          { "row": 1, "col": 3, "shape": "triangle", "rotation_deg": 180, "fill": "none", "count": 1 },
+          { "row": 2, "col": 1, "shape": "triangle", "rotation_deg": 0, "fill": "solid", "count": 1 },
+          { "row": 2, "col": 2, "shape": "triangle", "rotation_deg": 90, "fill": "solid", "count": 1 },
+          { "row": 2, "col": 3, "shape": "triangle", "rotation_deg": 180, "fill": "solid", "count": 1 },
+          { "row": 3, "col": 1, "shape": "triangle", "rotation_deg": 0, "fill": "striped", "count": 1 },
+          { "row": 3, "col": 2, "shape": "triangle", "rotation_deg": 90, "fill": "striped", "count": 1 },
+          { "row": 3, "col": 3, "missing": true }
+        ],
+        "rule": "Rotation определяется столбцом (0°/90°/180°), fill определяется строкой."
+      },
+      "options": [
+        { "key": "A", "shape": "triangle", "rotation_deg": 180, "fill": "striped", "count": 1 },
+        { "key": "B", "shape": "triangle", "rotation_deg": 90, "fill": "striped", "count": 1 },
+        { "key": "C", "shape": "triangle", "rotation_deg": 0, "fill": "striped", "count": 1 },
+        { "key": "D", "shape": "triangle", "rotation_deg": 180, "fill": "solid", "count": 1 },
+        { "key": "E", "shape": "triangle", "rotation_deg": 180, "fill": "none", "count": 1 },
+        { "key": "F", "shape": "square", "rotation_deg": 180, "fill": "striped", "count": 1 }
+      ],
+      "correct_answer": "A",
+      "explanation": "Строка 3 — striped, столбец 3 — 180°."
+    },
+    {
+      "id": "logic_23",
+      "category": "logic",
+      "subtype": "matrix_rule",
+      "difficulty": "hard",
+      "prompt_title": "Логика",
+      "prompt_text": "Выберите недостающий элемент матрицы.",
+      "render": { "mode": "svg_matrix_options" },
+      "payload": {
+        "grid_size": [3, 3],
+        "cells": [
+          { "row": 1, "col": 1, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 1, "col": 2, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 2 },
+          { "row": 1, "col": 3, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 3 },
+          { "row": 2, "col": 1, "shape": "square", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 2, "col": 2, "shape": "square", "rotation_deg": 0, "fill": "none", "count": 2 },
+          { "row": 2, "col": 3, "shape": "square", "rotation_deg": 0, "fill": "none", "count": 3 },
+          { "row": 3, "col": 1, "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 3, "col": 2, "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 2 },
+          { "row": 3, "col": 3, "missing": true }
+        ],
+        "rule": "Форма определяется строкой, количество увеличивается по столбцу (1/2/3)."
+      },
+      "options": [
+        { "key": "A", "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 3 },
+        { "key": "B", "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 2 },
+        { "key": "C", "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 3 },
+        { "key": "D", "shape": "triangle", "rotation_deg": 0, "fill": "solid", "count": 3 },
+        { "key": "E", "shape": "square", "rotation_deg": 0, "fill": "none", "count": 3 },
+        { "key": "F", "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1 }
+      ],
+      "correct_answer": "A",
+      "explanation": "Строка 3 — треугольник, столбец 3 — 3 фигуры."
+    },
+    {
+      "id": "logic_24",
+      "category": "logic",
+      "subtype": "matrix_rule",
+      "difficulty": "hard",
+      "prompt_title": "Логика",
+      "prompt_text": "Выберите недостающий элемент матрицы.",
+      "render": { "mode": "svg_matrix_options" },
+      "payload": {
+        "grid_size": [3, 3],
+        "cells": [
+          { "row": 1, "col": 1, "shape": "circle", "rotation_deg": 0, "fill": "solid", "count": 1 },
+          { "row": 1, "col": 2, "shape": "square", "rotation_deg": 0, "fill": "solid", "count": 1 },
+          { "row": 1, "col": 3, "shape": "triangle", "rotation_deg": 0, "fill": "solid", "count": 1 },
+          { "row": 2, "col": 1, "shape": "square", "rotation_deg": 0, "fill": "striped", "count": 1 },
+          { "row": 2, "col": 2, "shape": "triangle", "rotation_deg": 0, "fill": "striped", "count": 1 },
+          { "row": 2, "col": 3, "shape": "circle", "rotation_deg": 0, "fill": "striped", "count": 1 },
+          { "row": 3, "col": 1, "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 3, "col": 2, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 3, "col": 3, "missing": true }
+        ],
+        "rule": "Каждая строка содержит все три формы. Fill определяется строкой. Формы циклически сдвигаются."
+      },
+      "options": [
+        { "key": "A", "shape": "square", "rotation_deg": 0, "fill": "none", "count": 1 },
+        { "key": "B", "shape": "triangle", "rotation_deg": 0, "fill": "none", "count": 1 },
+        { "key": "C", "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1 },
+        { "key": "D", "shape": "square", "rotation_deg": 0, "fill": "solid", "count": 1 },
+        { "key": "E", "shape": "square", "rotation_deg": 0, "fill": "striped", "count": 1 },
+        { "key": "F", "shape": "triangle", "rotation_deg": 0, "fill": "solid", "count": 1 }
+      ],
+      "correct_answer": "A",
+      "explanation": "Строка 3 — none, в строке уже есть triangle и circle — остаётся square."
+    },
+    {
+      "id": "logic_25",
+      "category": "logic",
+      "subtype": "matrix_rule",
+      "difficulty": "hard",
+      "prompt_title": "Логика",
+      "prompt_text": "Выберите недостающий элемент матрицы.",
+      "render": { "mode": "svg_matrix_options" },
+      "payload": {
+        "grid_size": [3, 3],
+        "cells": [
+          { "row": 1, "col": 1, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 1, "col": 2, "shape": "square", "rotation_deg": 0, "fill": "solid", "count": 2 },
+          { "row": 1, "col": 3, "shape": "triangle", "rotation_deg": 0, "fill": "striped", "count": 3 },
+          { "row": 2, "col": 1, "shape": "square", "rotation_deg": 0, "fill": "solid", "count": 2 },
+          { "row": 2, "col": 2, "shape": "triangle", "rotation_deg": 0, "fill": "striped", "count": 3 },
+          { "row": 2, "col": 3, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 3, "col": 1, "shape": "triangle", "rotation_deg": 0, "fill": "striped", "count": 3 },
+          { "row": 3, "col": 2, "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1 },
+          { "row": 3, "col": 3, "missing": true }
+        ],
+        "rule": "Каждая строка содержит circle+none+1, square+solid+2, triangle+striped+3 в разном порядке."
+      },
+      "options": [
+        { "key": "A", "shape": "square", "rotation_deg": 0, "fill": "solid", "count": 2 },
+        { "key": "B", "shape": "triangle", "rotation_deg": 0, "fill": "striped", "count": 3 },
+        { "key": "C", "shape": "circle", "rotation_deg": 0, "fill": "none", "count": 1 },
+        { "key": "D", "shape": "square", "rotation_deg": 0, "fill": "none", "count": 2 },
+        { "key": "E", "shape": "square", "rotation_deg": 0, "fill": "striped", "count": 2 },
+        { "key": "F", "shape": "triangle", "rotation_deg": 0, "fill": "solid", "count": 1 }
+      ],
+      "correct_answer": "A",
+      "explanation": "В строке 3 есть triangle+striped+3 и circle+none+1 — не хватает square+solid+2."
     }
   ]
 }

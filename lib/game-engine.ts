@@ -83,20 +83,31 @@ function interleaveChessSudoku(tasks: any[], rng: () => number): any[] {
   return result
 }
 
-// 4 chess + 4 sudoku per station = 8 tasks
-const PICKS_PER_STATION: Record<GameCategory, number> = { chess: 4, sudoku: 4 }
+export type GameMode = "chess" | "sudoku" | "chess_sudoku" | "games"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function buildGameBlock(stationIndex: 0 | 1 | 2, eventId?: string, heatNumber?: number): any[] {
+export function buildGameBlock(stationIndex: 0 | 1 | 2, eventId?: string, heatNumber?: number, gameMode: GameMode = "chess_sudoku", taskCount: number = 4): any[] {
   const heat = heatNumber || 1
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tasks: any[] = []
+
+  // Determine picks per category based on mode
+  let picks: Record<GameCategory, number>
+  if (gameMode === "chess") {
+    picks = { chess: taskCount, sudoku: 0 }
+  } else if (gameMode === "sudoku") {
+    picks = { chess: 0, sudoku: taskCount }
+  } else {
+    // chess_sudoku or games
+    picks = { chess: Math.ceil(taskCount / 2), sudoku: Math.floor(taskCount / 2) }
+  }
 
   const categories: GameCategory[] = ["chess", "sudoku"]
 
   for (const cat of categories) {
     const bank = GAME_BANKS[cat]
-    const pick = PICKS_PER_STATION[cat]
+    const pick = picks[cat]
+    if (pick === 0) continue
 
     if (eventId) {
       const bankRng = seededRng(hashString(eventId + ":heat:" + heat + ":gamebank:" + cat))
@@ -111,12 +122,19 @@ export function buildGameBlock(stationIndex: 0 | 1 | 2, eventId?: string, heatNu
     }
   }
 
+  // Don't shuffle options for sudoku_6x6_grid tasks
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const maybeShuffleOptions = (t: any, rng: () => number) => {
+    if (t.render?.mode === "sudoku_6x6_grid") return t
+    return shuffleOptions(t, rng)
+  }
+
   if (eventId) {
     const rng = seededRng(hashString(eventId + ":heat:" + heat + ":gamestation:" + stationIndex))
-    return interleaveChessSudoku(tasks, rng).map((t) => shuffleOptions(t, rng))
+    return interleaveChessSudoku(tasks, rng).map((t) => maybeShuffleOptions(t, rng))
   }
 
   // Fallback for preview
   const fallbackRng = seededRng(Math.floor(Math.random() * 1000000))
-  return interleaveChessSudoku(tasks, fallbackRng).map((t) => shuffleOptions(t, fallbackRng))
+  return interleaveChessSudoku(tasks, fallbackRng).map((t) => maybeShuffleOptions(t, fallbackRng))
 }

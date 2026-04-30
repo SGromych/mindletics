@@ -25,7 +25,7 @@ interface AttemptData {
   totalWrong: number
   penaltyTimeSec: number
   participant: { firstName: string; lastName: string; bibNumber: string; gender: string; birthDate: string; heatNumber: number }
-  event: { eventName: string; hallName: string; eventDate: string; exercises: string[]; penaltySec: number; heatCount: number; eventMode?: string }
+  event: { eventName: string; hallName: string; eventDate: string; exercises: string[]; penaltySec: number; heatCount: number; eventMode?: string; gameTaskCount?: number }
   stageResults: Array<{
     stageNo: number
     stageType: string
@@ -78,7 +78,7 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     setTimeout(() => setActionLock(false), 2000)
   }
 
-  async function handleNextLevel(stageResult?: BlockResult) {
+  const handleNextLevel = useCallback(async (stageResult?: BlockResult) => {
     if (stageResult !== undefined) lastStageResultRef.current = stageResult
     setActionLock(true)
     setError(null)
@@ -106,7 +106,7 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
       return
     }
     setTimeout(() => setActionLock(false), 2000)
-  }
+  }, [attemptId])
 
   async function handleAbort() {
     setShowAbortModal(false)
@@ -120,12 +120,12 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
     setActionLock(false)
   }
 
-  function handleCognitiveComplete(result: BlockResult) {
+  const handleCognitiveComplete = useCallback((result: BlockResult) => {
     // Immediately add penalty to the displayed timer so the subsequent
     // physical stage starts with the cognitive stage penalty already counted.
     setPendingPenalty((p) => p + result.penaltySec)
     handleNextLevel(result)
-  }
+  }, [handleNextLevel])
 
   if (loading || !attempt) {
     return <div className="flex min-h-screen items-center justify-center text-xl">Загрузка...</div>
@@ -233,13 +233,15 @@ export function AttemptScreen({ attemptId }: { attemptId: string }) {
 
         {!error && (
           <div className="mt-4 flex-1">
-            {attempt.event.eventMode === "games" ? (
+            {attempt.event.eventMode && attempt.event.eventMode !== "cognitive" ? (
               <GameBlock
                 key={attempt.currentStageNo}
                 stationIndex={stationIdx}
                 eventId={attempt.eventId}
                 heatNumber={attempt.participant.heatNumber}
                 penaltySec={attempt.event.penaltySec}
+                gameMode={attempt.event.eventMode as "chess" | "sudoku" | "chess_sudoku" | "games"}
+                taskCount={attempt.event.gameTaskCount ?? 4}
                 onComplete={handleCognitiveComplete}
               />
             ) : (

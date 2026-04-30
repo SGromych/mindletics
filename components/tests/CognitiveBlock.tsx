@@ -7,6 +7,7 @@ import {
   computeBlockResult,
   countMemoryPartialErrors,
   isMemoryTask,
+  memoryPenaltyMultiplier,
   ANSWER_TIME_SEC,
   PREP_TIME_SEC,
   STATION_MAX_SEC,
@@ -48,6 +49,7 @@ export function CognitiveBlock({ stationIndex, eventId, heatNumber, penaltySec: 
   const [countdown, setCountdown] = useState(PREP_TIME_SEC)
   const [showSummary, setShowSummary] = useState(false)
   const [summaryData, setSummaryData] = useState<{ correct: number; total: number; penalty: number } | null>(null)
+  const [flashPenalty, setFlashPenalty] = useState<number | null>(null)
 
   const taskStartRef = useRef(Date.now())
   const answeredRef = useRef(false)
@@ -63,9 +65,14 @@ export function CognitiveBlock({ stationIndex, eventId, heatNumber, penaltySec: 
     setShowSummary(true)
   }, [totalTasks, penalty])
 
+  // Guard against calling onComplete more than once
+  const calledOnCompleteRef = useRef(false)
+
   // Auto-call onComplete after 2s summary display
   useEffect(() => {
     if (!showSummary || !resultRef.current) return
+    if (calledOnCompleteRef.current) return
+    calledOnCompleteRef.current = true
     const timer = setTimeout(() => {
       onComplete(resultRef.current!)
     }, 2000)
@@ -145,7 +152,10 @@ export function CognitiveBlock({ stationIndex, eventId, heatNumber, penaltySec: 
       correctOption: task.correct_answer,
     }
 
-    setPenaltyTotal((p) => p + penalty)
+    const taskPenalty = penalty
+    setPenaltyTotal((p) => p + taskPenalty)
+    setFlashPenalty(taskPenalty)
+    setTimeout(() => setFlashPenalty(null), 1500)
     const newAnswers = [...answers, entry]
     setAnswers(newAnswers)
     advanceOrFinish(newAnswers)
@@ -180,12 +190,19 @@ export function CognitiveBlock({ stationIndex, eventId, heatNumber, penaltySec: 
     }
 
     // For memory tasks, count partial errors for proportional penalty
+    let taskPenalty = 0
     if (!wasCorrect && isMemoryTask(task.subtype)) {
-      entry.partialErrors = countMemoryPartialErrors(task, selected)
+      const partialErrors = countMemoryPartialErrors(task, selected)
+      entry.partialErrors = partialErrors
+      taskPenalty = memoryPenaltyMultiplier(partialErrors) * penalty
+    } else if (!wasCorrect) {
+      taskPenalty = penalty
     }
 
-    if (!wasCorrect) {
-      setPenaltyTotal((p) => p + penalty)
+    if (taskPenalty > 0) {
+      setPenaltyTotal((p) => p + taskPenalty)
+      setFlashPenalty(taskPenalty)
+      setTimeout(() => setFlashPenalty(null), 1500)
     }
 
     const newAnswers = [...answers, entry]
@@ -243,7 +260,14 @@ export function CognitiveBlock({ stationIndex, eventId, heatNumber, penaltySec: 
   const renderMode = task.render?.mode
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="relative flex flex-col gap-4">
+      {flashPenalty !== null && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <span className="text-5xl font-black text-red-500 animate-pulse drop-shadow-lg">
+            +{flashPenalty}с
+          </span>
+        </div>
+      )}
       <div className="flex items-center justify-between text-sm">
         <span className="text-gray-400">
           {currentTask + 1} / {totalTasks} — {task.prompt_title}

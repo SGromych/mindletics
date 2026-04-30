@@ -11,21 +11,16 @@ interface Props {
 export function SymbolSequenceRenderer({ task, onAnswer }: Props) {
   const sequence: string[] = task.payload.shown_sequence
   const symbolSet: string[] = task.render.symbol_set
-  const showDuration = 1200 // ms per symbol
+  const showDurationMs = Math.max(sequence.length * 1200, 5000)
 
   const [phase, setPhase] = useState<"show" | "recall">("show")
-  const [showIndex, setShowIndex] = useState(0)
   const [selected, setSelected] = useState<string[]>([])
 
   useEffect(() => {
     if (phase !== "show") return
-    if (showIndex >= sequence.length) {
-      setPhase("recall")
-      return
-    }
-    const timer = setTimeout(() => setShowIndex((i) => i + 1), showDuration)
+    const timer = setTimeout(() => setPhase("recall"), showDurationMs)
     return () => clearTimeout(timer)
-  }, [phase, showIndex, sequence.length])
+  }, [phase, showDurationMs])
 
   const handleSelect = useCallback((symbol: string) => {
     setSelected((prev) => {
@@ -45,11 +40,13 @@ export function SymbolSequenceRenderer({ task, onAnswer }: Props) {
     return (
       <div className="flex flex-col items-center gap-6">
         <p className="text-lg text-gray-300">Запомните последовательность</p>
-        <div className="text-8xl select-none animate-pulse">
-          {showIndex < sequence.length ? sequence[showIndex] : ""}
+        <div className="flex gap-4 items-center justify-center flex-wrap">
+          {sequence.map((sym, i) => (
+            <span key={i} className="text-6xl select-none">{sym}</span>
+          ))}
         </div>
-        <p className="text-sm text-gray-500">
-          {showIndex + 1} / {sequence.length}
+        <p className="text-sm text-gray-500 animate-pulse">
+          Запоминайте... ({Math.round(showDurationMs / 1000)}с)
         </p>
       </div>
     )
